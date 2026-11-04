@@ -4,13 +4,15 @@
 
 **Visual AI development, powered by Muse Spark.** Muse plans and builds. Mulow makes the work visible, connected and steerable.
 
-[Explore Mulow](https://mulow.vercel.app/) · [Mac Beta](https://github.com/yeon971105/Mulow/releases/tag/v7.0.7-mac-preview) · [Application source](app/) · [Build from source](app/README.md)
+[Watch the demo](https://youtu.be/f0bsHTJUjOE) · [Explore Mulow](https://mulow.vercel.app/) · [Mac Beta](https://github.com/yeon971105/Mulow/releases/tag/v7.0.7-mac-preview) · [Source ZIP](https://github.com/yeon971105/Mulow/releases/download/v7.0.7-mac-preview/Mulow-Mac-v7.0.7-Agent-source-2026-11-04.zip)
 
-[![An illustrative overview of Mulow connecting Plan, Architecture, Workflow and Preview, with Steer guiding the same project.](docs/assets/mulow-overview.svg)](https://mulow.vercel.app/#experience)
+[![Watch Mulow — Meta Hackathon Demo with 11.ai on YouTube](https://i.ytimg.com/vi/f0bsHTJUjOE/hqdefault.jpg)](https://youtu.be/f0bsHTJUjOE)
 
 ## Why Mulow
 
 AI development can be hard to follow when the plan, current work and resulting app are scattered across a long conversation. Mulow connects them in one visual workspace so you can understand the structure, inspect progress and guide the next change.
+
+[![An illustrative overview of Mulow connecting Plan, Architecture, Workflow and Preview, with Steer guiding the same project.](docs/assets/mulow-overview.svg)](https://mulow.vercel.app/#experience)
 
 ## Muse does the work. You direct it.
 
@@ -26,11 +28,11 @@ Ordinary route recommendations can continue automatically. A proposal is not an 
 
 ## Demo
 
-**[Try the interactive product overview →](https://mulow.vercel.app/#experience)**
+**[Watch the actual screen-recorded demo →](https://youtu.be/f0bsHTJUjOE)** · [Try the illustrative overview](https://mulow.vercel.app/#experience)
 
-The recorded walkthrough follows **Orbit Counter**: a saved plan → first build → an Agent update adding **Add 10** and **Even/Odd** → Steer → Preview → restore the earlier version. Recorded-video publication is awaiting final approval; no unverified video link is embedded here.
+The recorded walkthrough follows **Orbit Counter**: a saved plan → first build → an Agent update adding **Add 10** and **Even/Odd** → Steer → Preview → restore the earlier version.
 
-The diagram above and the website’s interactive overview are illustrations. Actual workflow checks are described in [the release validation](app/VALIDATION.json).
+The diagram above and the website’s interactive overview are illustrations. Actual workflow checks are described in [the release validation notes](https://github.com/yeon971105/Mulow/releases/tag/v7.0.7-mac-preview).
 
 ## Mac Beta
 
@@ -42,24 +44,22 @@ The diagram above and the website’s interactive overview are illustrations. Ac
 
 Live AI requires your own model connection; credentials are not included. **Windows: Coming Soon.**
 
-For developers, [build instructions](app/README.md) describe the Apple Silicon toolchain, Xcode command line tools, Python 3 and Node 24.8.0. Building creates an ad-hoc signed app; it does not add Developer ID signing or Apple notarization.
+For developers, the build instructions in the [source ZIP](https://github.com/yeon971105/Mulow/releases/download/v7.0.7-mac-preview/Mulow-Mac-v7.0.7-Agent-source-2026-11-04.zip) describe the Apple Silicon toolchain, Xcode command line tools, Python 3 and Node 24.8.0. Building creates an ad-hoc signed app; it does not add Developer ID signing or Apple notarization.
 
 ## Source and verification
 
-- [`app/mac/`](app/mac/) — native Mac wrapper and session connection.
-- [`app/runtime/`](app/runtime/) — local runtime, backend and visual workspace.
-- [`app/qa/`](app/qa/) — portable, isolated Agent QA subset.
-- [`website/`](website/) — the public, buildless website.
-- [`docs/source-manifest.json`](docs/source-manifest.json) — file hashes for the reviewed source import.
+**The full application source is available in the [reviewed source ZIP](https://github.com/yeon971105/Mulow/releases/download/v7.0.7-mac-preview/Mulow-Mac-v7.0.7-Agent-source-2026-11-04.zip).** It contains the Mac wrapper (`source/mac/`), local runtime and visual workspace (`source/runtime/`), portable QA (`source/qa/`), build instructions, validation and licenses.
+
+This repository currently tracks the [website](website/). The browsable application source import is not yet published.
 
 The published app, source and checksum downloads match their reviewed originals. Earlier local source-build and extracted-launch checks passed; that does **not** establish a successful browser-downloaded installation. The portable synthetic subset recorded **12/12**, and the broader release record reports **114 scoped checks** with recorded fixtures. These checks do not prove every generated app or alternative works. Preview supports a restricted React profile; file import and drag-and-drop are outside this release’s scope.
 
 ## Development history and hackathon scope
 
-This is a snapshot publication of an existing Mulow codebase, not a claim that the entire application was written during the event. The [packaged runtime manifest](app/runtime/build.json) records upstream baseline `fbce78334a044794c2cee625ac74a0cc18aad14b`.
+This is a snapshot publication of an existing Mulow codebase, not a claim that the entire application was written during the event. The [packaged runtime manifest](https://github.com/yeon971105/Mulow/releases/download/v7.0.7-mac-preview/Mulow-Mac-v7.0.7-Agent-source-2026-11-04.zip) records upstream baseline `fbce78334a044794c2cee625ac74a0cc18aad14b`.
 
-The release combines the existing visual-workspace/runtime foundation with the verified Agent-continuation, selected-route steering, node-outcome, linked-rewind and Mac packaging work described in [VALIDATION.json](app/VALIDATION.json). The source snapshot does not contain the original commit history or a dated event-boundary diff, so exact before/during-event attribution is **not independently established**. Public repository commit dates describe publication and maintenance, not original implementation dates. Vendored dependencies retain their own authorship and licenses.
+The release combines the existing visual-workspace/runtime foundation with the verified Agent-continuation, selected-route steering, node-outcome, linked-rewind and Mac packaging work described in [VALIDATION.json](https://github.com/yeon971105/Mulow/releases/download/v7.0.7-mac-preview/Mulow-Mac-v7.0.7-Agent-source-2026-11-04.zip). The source snapshot does not contain the original commit history or a dated event-boundary diff, so exact before/during-event attribution is **not independently established**. Public repository commit dates describe publication and maintenance, not original implementation dates. Vendored dependencies retain their own authorship and licenses.
 
 ## License
 
-Original Mulow code is [MIT](LICENSE), copyright 2026 Jewon Yeon. Keep [third-party notices](app/THIRD_PARTY_NOTICES.txt), the [Node license](app/NODE-LICENSE.txt) and vendored license files when redistributing. Private Library and top-level verification-run identifiers are omitted from the browsable validation summary; runtime code and fixture data remain unchanged from the reviewed source archive.
+Original Mulow code is [MIT](LICENSE), copyright 2026 Jewon Yeon. The [source ZIP](https://github.com/yeon971105/Mulow/releases/download/v7.0.7-mac-preview/Mulow-Mac-v7.0.7-Agent-source-2026-11-04.zip) includes third-party notices, the Node license and vendored license files; keep them when redistributing.
