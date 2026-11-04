@@ -1,0 +1,17 @@
+{
+  "version": "7.0.7",
+  "channel": "developer-preview",
+  "platform": "darwin-arm64",
+  "minimumOS": "macOS 15",
+  "url": "https://github.com/yeon971105/Mulow/releases/download/v7.0.7-mac-preview/Mulow-Mac-v7.0.7-Agent-2026-11-04.zip",
+  "sizeBytes": 46139167,
+  "sha256": "c3cdcdc52001fca823d81295ec7e28490669368a73f89b130ec471955a6c8865",
+  "releaseNotes": "https://github.com/yeon971105/Mulow/releases/tag/v7.0.7-mac-preview",
+  "sourceUrl": "https://github.com/yeon971105/Mulow/releases/download/v7.0.7-mac-preview/Mulow-Mac-v7.0.7-Agent-source-2026-11-04.zip",
+  "sourceSHA256": "45fab1c7c40ab609710889d106908e88df7e87d5e12dba3c69dea73efb7c80a7",
+  "checksumsUrl": "https://github.com/yeon971105/Mulow/releases/download/v7.0.7-mac-preview/SHA256SUMS.txt",
+  "signature": "ad-hoc",
+  "developerIdSigned": false,
+  "notarized": false,
+  "windows": "Coming Soon"
+}
