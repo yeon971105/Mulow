@@ -13,5 +13,9 @@
   "signature": "ad-hoc",
   "developerIdSigned": false,
   "notarized": false,
-  "windows": "Coming Soon"
+  "windows": "Coming Soon",
+  "downloadHashVerified": true,
+  "standardInstallVerified": false,
+  "gatekeeperAssessment": "Normal launch of the browser-downloaded app was rejected on the verification Mac.",
+  "notarizationTicketPresent": false
 }
