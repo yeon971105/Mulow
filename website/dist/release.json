@@ -1,6 +1,6 @@
 {
   "version": "7.0.7",
-  "channel": "developer-preview",
+  "channel": "beta",
   "platform": "darwin-arm64",
   "minimumOS": "macOS 15",
   "url": "https://github.com/yeon971105/Mulow/releases/download/v7.0.7-mac-preview/Mulow-Mac-v7.0.7-Agent-2026-11-04.zip",
