@@ -65,9 +65,9 @@ The published app, source and checksum downloads match their reviewed originals.
 
 ## Hackathon development
 
-All original Mulow project work was completed during the hackathon, including the visual workspace, Muse-powered planning and execution, Agent continuation and steering, node outcomes, linked version restore, Mac packaging, website and demo.
+Mulow’s original application code was developed during the Meta Global AI Developer Hackathon. This repository publishes the reviewed source snapshot for the submission. Vendored dependencies retain their original authorship and licenses.
 
-This repository publishes the reviewed release snapshot; its commit timestamps record publication and maintenance. Third-party dependencies retain their respective authorship, copyrights and licenses.
+The [runtime manifest](app/runtime/build.json) records source baseline `fbce78334a044794c2cee625ac74a0cc18aad14b`. Repository commit timestamps record publication and maintenance.
 
 ## License
 
