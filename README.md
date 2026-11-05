@@ -63,3 +63,4 @@ The release combines the existing visual-workspace/runtime foundation with the v
 ## License
 
 Original Mulow code is [MIT](LICENSE), copyright 2026 Jewon Yeon. The [source ZIP](https://github.com/yeon971105/Mulow/releases/download/v7.0.7-mac-preview/Mulow-Mac-v7.0.7-Agent-source-2026-11-04.zip) includes third-party notices, the Node license and vendored license files; keep them when redistributing.
+
