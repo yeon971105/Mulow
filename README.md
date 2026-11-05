@@ -4,9 +4,7 @@
 
 **Visual AI development, powered by Muse Spark.** Muse plans and builds. Mulow makes the work visible, connected and steerable.
 
-[Watch the demo](https://youtu.be/f0bsHTJUjOE) · [Explore Mulow](https://mulow.vercel.app/) · [Mac Beta](https://github.com/yeon971105/Mulow/releases/tag/v7.0.7-mac-preview) · [Source ZIP](https://github.com/yeon971105/Mulow/releases/download/v7.0.7-mac-preview/Mulow-Mac-v7.0.7-Agent-source-2026-11-04.zip)
-
-[![Watch Mulow — Meta Hackathon Demo with 11.ai on YouTube](https://i.ytimg.com/vi/f0bsHTJUjOE/hqdefault.jpg)](https://youtu.be/f0bsHTJUjOE)
+[Watch the demo](#demo) · [Explore Mulow](https://mulow.vercel.app/) · [Mac Beta](https://github.com/yeon971105/Mulow/releases/tag/v7.0.7-mac-preview) · [Source ZIP](https://github.com/yeon971105/Mulow/releases/download/v7.0.7-mac-preview/Mulow-Mac-v7.0.7-Agent-source-2026-11-04.zip)
 
 ## Why Mulow
 
@@ -28,7 +26,9 @@ Ordinary route recommendations can continue automatically. A proposal is not an 
 
 ## Demo
 
-**[Watch the actual screen-recorded demo →](https://youtu.be/f0bsHTJUjOE)** · [Try the illustrative overview](https://mulow.vercel.app/#experience)
+**Mulow — Meta Hackathon Demo with 11.ai · 2:23**
+
+https://github.com/user-attachments/assets/7ce3eb6b-e432-4821-95c2-716ad967fea5
 
 The recorded walkthrough follows **Orbit Counter**: a saved plan → first build → an Agent update adding **Add 10** and **Even/Odd** → Steer → Preview → restore the earlier version.
 
