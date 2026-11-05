@@ -1,0 +1,9 @@
+export const nearChatBottom=el=>el.scrollHeight-el.clientHeight-el.scrollTop<=48;
+export function boundedChatWidth(value,viewport){return Math.round(Math.max(280,Math.min(Number(value)||370,Math.min(560,Math.max(280,viewport-420)))));}
+export function createChatViewport({observe=typeof ResizeObserver==='function'?cb=>new ResizeObserver(cb):null,reduced=()=>false}={}){
+ const positions=new Map();let current=null,observer=null;
+ const snapshot=el=>{const top=el.getBoundingClientRect().top,items=[...(el.firstElementChild?.children||[])],index=items.findIndex(x=>x.getBoundingClientRect().bottom>top);return {top:el.scrollTop,follow:nearChatBottom(el),index,offset:index<0?0:items[index].getBoundingClientRect().top-top};};
+ function update(){if(!current||current.el.clientHeight===0)return;const {el,key,button}=current;positions.set(key,snapshot(el));button.hidden=el.scrollHeight<=el.clientHeight+1||nearChatBottom(el);}
+ function restore(){if(!current||!current.el.isConnected||current.el.clientHeight===0)return;const {el,key,button}=current,p=positions.get(key);if(!p||p.follow)el.scrollTop=el.scrollHeight;else{el.scrollTop=p.top;const anchor=el.firstElementChild?.children[p.index];if(anchor)el.scrollTop+=anchor.getBoundingClientRect().top-el.getBoundingClientRect().top-p.offset;}button.hidden=el.scrollHeight<=el.clientHeight+1||nearChatBottom(el);positions.set(key,snapshot(el));}
+ return {capture:update,mount(el,button,key){observer?.disconnect();current={el,button,key};restore();el.addEventListener('scroll',update,{passive:true});if(observe){const own=current;observer=observe(()=>{if(current===own)restore();});observer.observe(el);if(el.firstElementChild)observer.observe(el.firstElementChild);}},jump(){if(!current)return;current.el.scrollTo({top:current.el.scrollHeight,behavior:reduced()?'auto':'smooth'});},resized:restore,positions};
+}

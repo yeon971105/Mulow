@@ -1,0 +1,16 @@
+// Owner-reviewed derived static artifact, not a model execution or provider receipt.
+import {readFileSync} from 'node:fs';import {createHash} from 'node:crypto';
+const audited=JSON.parse(readFileSync(new URL('./fixtures/reviewed-react-derived.manifest.json',import.meta.url),'utf8'));
+const sha=s=>createHash('sha256').update(s).digest('hex');
+const canonical=x=>Array.isArray(x)?x.map(canonical):x&&typeof x==='object'?Object.fromEntries(Object.keys(x).sort().map(k=>[k,canonical(x[k])])):x;
+const digest=x=>sha(JSON.stringify(canonical(x)));
+export function validateGeneratedDerivation({sessionId,source,generatedRevision,compileManifest},{projects,owner,latestPlanId}){
+ if(typeof generatedRevision!=='string'||!/^[a-f0-9]{64}$/.test(generatedRevision)||digest(compileManifest)!==digest(audited))throw Error('generated_derivation_not_reviewed');
+ if(source?.files?.length!==1||source?.entrypoints?.length!==1||source?.dependencies?.length!==0||source.entrypoints[0].path!==source.files[0].path||!source.files[0].path.endsWith('.html')||sha(source.files[0].content)!==audited.outputSha256)throw Error('generated_derivation_output_changed');
+ const current=projects.currentLineage({sessionId,owner});if(current.status!=='known'||current.revision!==generatedRevision||latestPlanId(sessionId)!==current.planRunId)throw Error('generated_derivation_stale');
+ const snapshot=projects.readSnapshot({sessionId,owner,runId:current.runId,revision:generatedRevision});
+ const originalSourceDigest=sha(JSON.stringify([...snapshot.manifest.files].sort((a,b)=>a.path.localeCompare(b.path))));
+ if(generatedRevision!==audited.originalRevision||originalSourceDigest!==audited.originalSourceDigest||snapshot.currentRevision!==generatedRevision||snapshot.manifest.source.runId!==audited.originalRunId||snapshot.manifest.source.planRevision!==audited.originalPlanRevision)throw Error('generated_derivation_original_changed');
+ return {kind:'reviewed_static_react_derivative',generatedRevision,originalSourceDigest,originalRunId:current.runId,planRunId:current.planRunId,planRevision:snapshot.manifest.source.planRevision,outputSha256:audited.outputSha256,profile:audited.profile,suppliedDependencies:audited.suppliedDependencies,suppliedScaffold:audited.suppliedScaffold,compileManifestDigest:digest(audited),sourceEdition:'locally_repaired',execution:'not_run',tests:'not_run',providerProvenance:'not_a_provider_receipt'};
+}
+export function assertGeneratedDerivation(evidence,sessionId,context){const current=context.projects.currentLineage({sessionId,owner:context.owner});if(current.status!=='known'||current.revision!==evidence.generatedRevision||current.runId!==evidence.originalRunId||current.planRunId!==evidence.planRunId||context.latestPlanId(sessionId)!==evidence.planRunId)throw Error('generated_derivation_stale');const snapshot=context.projects.readSnapshot({sessionId,owner:context.owner,runId:current.runId,revision:current.revision});if(snapshot.currentRevision!==evidence.generatedRevision||sha(JSON.stringify([...snapshot.manifest.files].sort((a,b)=>a.path.localeCompare(b.path))))!==evidence.originalSourceDigest||snapshot.manifest.source.planRevision!==evidence.planRevision)throw Error('generated_derivation_original_changed');}

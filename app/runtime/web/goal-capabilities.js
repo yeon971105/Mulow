@@ -1,0 +1,5 @@
+// Explicit model/approved-plan declarations only; never infer from prose or compile receipts.
+export const GOAL_CAPABILITIES=Object.freeze(['frontend_compile','frontend_browser_tests','backend_runtime','backend_tests','database_migrations','persistence_tests','integration_tests','security_tests','accessibility_tests','deployment_health','declarative_schema_validation','local_crud_runtime']);
+const allowed=new Set(GOAL_CAPABILITIES);
+export function validateRequiredCapabilities(value){const fail=code=>{throw Object.assign(Error(code),{code});};if(!Array.isArray(value)||!value.length||value.length>GOAL_CAPABILITIES.length)fail('required_capabilities_missing_or_invalid');if(value.some(x=>typeof x!=='string'||!allowed.has(x)))fail('unknown_required_capability');if(new Set(value).size!==value.length)fail('duplicate_required_capability');return [...value];}
+export function requiredCapabilityFields(value){return Object.hasOwn(value||{},'requiredCapabilities')?{requiredCapabilities:validateRequiredCapabilities(value.requiredCapabilities)}:{};}

@@ -1,0 +1,9 @@
+{
+  "name": "musepilot-local",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "start": "node local/server.mjs"
+  },
+  "license": "MIT"
+}

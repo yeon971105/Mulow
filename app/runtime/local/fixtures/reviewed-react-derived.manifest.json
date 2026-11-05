@@ -1,0 +1,45 @@
+{
+  "profile": "reviewed-static-react-v1",
+  "originalRevision": "2278cc602d8c5b1eedf51b38a56fddbdf08573231c577701dd38d82e329134eb",
+  "originalSourceDigest": "df28d938049c45f95f7dff859de169f289d215f779de5e7255dddbef7110e45b",
+  "inputDigest": "5b7fee0e13179e387681871a86041f6b5ee16cc130884831c6e89e2214815ac1",
+  "inputs": [
+    {
+      "path": "src/main.jsx",
+      "sha256": "de11297c24ac49ece8f21f949a62d045ac66bc52b74dad13056f442a1cc151a1",
+      "bytes": 10968
+    },
+    {
+      "path": "src/study-model.mjs",
+      "sha256": "2a40786e68864590f8da49c069ef4bb2be23d65fb4ce8b90e8f4652fbdfb9aee",
+      "bytes": 5880
+    },
+    {
+      "path": "src/styles.css",
+      "sha256": "b61674ca8ef7b8d5539cc2613f96490a28f33a1a963105469b998cf66cf76326",
+      "bytes": 3346
+    }
+  ],
+  "outputSha256": "6055a25f60db9d86334d1a557cbf1465710eac1a84969974b76d0b18c6a49c10",
+  "suppliedScaffold": "html-root-element-v1",
+  "suppliedDependencies": {
+    "react": "19.3.1",
+    "react-dom": "19.3.1",
+    "scheduler": "0.28.0",
+    "esbuild-wasm": "0.25.12"
+  },
+  "originalDependencyCompleteness": "not_asserted",
+  "build": "compiled_only",
+  "execution": "not_run",
+  "tests": "not_run",
+  "runtimeAuthorization": "requires_separate_exact_output_review",
+  "limitations": [
+    "No backend, dependency installation or generated build scripts",
+    "Preview storage is temporary memory; downloads and forms remain blocked"
+  ],
+  "sessionId": "6610f33e-2f3c-4ba7-8d34-e0db6fcbc68d",
+  "originalRunId": "run_7957643e-701e-4813-8e47-7556251c8895",
+  "originalPlanRevision": "4f83d72308b928f48b51a77ec5d6779b3bfd0eef803dea5cd5ba70630fff3a47",
+  "derivation": "locally_repaired_source_plus_trusted_static_react_scaffold",
+  "originalManifestSha256": "c352f7f736f87a0ac653a17f40b327ad2ee79e32f88b1e815b6aa797f4a4a155"
+}

@@ -1,0 +1,21 @@
+import {documentEventFields,documentStartFields,documentPlanFields,documentDesignLineageFields} from './plan-document.js';
+import {validateStructuredArchitecture} from './architecture-schema.js';
+import {storedPlanArtifactFields} from './planning-artifact.js';
+import {requiredCapabilityFields} from './goal-capabilities.js';
+import {planningReadinessEvidenceFields} from './planning-readiness.js';
+import {implementationProfileFields} from './implementation-profile.js';
+import {validateTaskComponentBindings,taskComponentFields} from './task-components.js';
+import {isWorkflowTaskId,validateWorkflowPhases,MAX_WORKFLOW_TASKS} from './workflow-limits.js';
+export const DOCUMENT_EVENT_TYPES=['plan.document.proposed','plan.design.indexed','plan.design.stage','plan.design.blocked','plan.design.proposed'];
+export function validateDocumentDesignView(p){if(!p||typeof p.goal!=='string'||!p.goal.trim()||p.goal.length>6000||!Array.isArray(p.tasks)||!p.tasks.length||p.tasks.length>MAX_WORKFLOW_TASKS)throw Error('Invalid document design');const ids=new Set(p.tasks.map(t=>t.id));if(ids.size!==p.tasks.length)throw Error('Invalid document tasks');for(const t of p.tasks){if(!isWorkflowTaskId(t.id)||!['implementation','research','review'].includes(t.role)||!['artifact','architecture'].includes(t.outputKind||'artifact')||typeof t.title!=='string'||!t.title.trim()||t.title.length>100||typeof t.instruction!=='string'||!t.instruction.trim()||t.instruction.length>2000||!Array.isArray(t.dependencies)||new Set(t.dependencies).size!==t.dependencies.length||t.dependencies.some(id=>id===t.id||!ids.has(id)))throw Error('Invalid document task');taskComponentFields(t);}validateWorkflowPhases(p.tasks);const done=new Set();for(let i=0;i<p.tasks.length;i++)for(const t of p.tasks)if(t.dependencies.every(x=>done.has(x)))done.add(t.id);if(done.size!==ids.size)throw Error('Invalid document dependencies');validateStructuredArchitecture(p.architecture);validateTaskComponentBindings(p.tasks,p.architecture);const fields={...documentPlanFields(p),...storedPlanArtifactFields(p),...requiredCapabilityFields(p),...planningReadinessEvidenceFields(p),...implementationProfileFields(p)};if(!fields.documentBinding||!fields.planArtifact)throw Error('Missing document design binding');return {...structuredClone(p),...fields};}
+export function planDocumentEventFields(e,history=[]){
+ if(e.type==='run.started'){const fields=documentStartFields(e.documentPlan);if(fields.documentPlan&&(e.interactionMode!=='plan'||e.conversation!==true||e.automaticGoalSummary===true))throw Error('Invalid document run mode');return fields;}
+ if(e.type==='plan.created')return {...documentPlanFields(e),...documentDesignLineageFields(e)};
+ if(!DOCUMENT_EVENT_TYPES.includes(e.type))return {};
+ const events=history.filter(x=>x.runId===e.runId),start=events.find(x=>x.type==='run.started'),marker=start?.documentPlan;
+ if(!marker||start.interactionMode!=='plan'||start.conversation!==true||events.some(x=>['run.completed','run.failed','run.cancelled'].includes(x.type)))throw Error('Document event outside admitted run');
+ const f=documentEventFields(e,{validateDesign:validateDocumentDesignView});
+ if(e.type==='plan.document.proposed'){if(marker.action!=='author'||f.baseRevisionId!==marker.baseRevisionId||events.some(x=>x.type===e.type))throw Error('Document author context changed');}
+ else {if(marker.action!=='design'||f.documentBinding.revisionId!==marker.revisionId)throw Error('Document design revision changed');const prior=events.find(x=>x.documentBinding);if(prior&&['revisionId','documentDigest','sourceBindingDigest'].some(k=>prior.documentBinding[k]!==f.documentBinding[k]))throw Error('Mixed document design stages');if(events.some(x=>x.type===e.type)||events.some(x=>['plan.design.proposed','plan.design.blocked'].includes(x.type)))throw Error('Duplicate document design stage');if(e.type==='plan.design.proposed'){const stage=events.find(x=>x.type==='plan.design.stage');if(!stage||stage.architectureDigest!==f.documentBinding.architectureDigest||stage.architectureStageDigest!==f.documentBinding.architectureStageDigest||JSON.stringify(stage.architectureStage)!==JSON.stringify(f.plan.documentArchitectureStage))throw Error('Document architecture stage missing');}}
+ return f;
+}

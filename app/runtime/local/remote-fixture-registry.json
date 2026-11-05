@@ -1,0 +1,68 @@
+{
+  "reading_queue_pdf_v1": {
+    "goal": "Implement the Reading Queue app specified in the attached synthetic planning PDF. Derive its architecture and meaningful workflow from the document; preserve validated local data and all stated behavior. No external services, accounts, packages, or deployment.",
+    "descriptor": {
+      "fixtureId": "reading_queue_pdf_v1",
+      "pdfSha256": "5ee7db100ec3eb832811748929131f2a023ffd299d5a1f3fda6c205ea1e52ffb",
+      "textSha256": "528acaeab8459860875786d481a385afafb76832100f8af64d3d01783a149818"
+    },
+    "inputDigest": "80bf98e58cb437479ebe68ddde2504c0e1eb7eb8d66f5feba6d66ebf1ecdd63c",
+    "enabled": true,
+    "pdfExtractionPending": false
+  },
+  "habit_tracker_source_v1": {
+    "goal": "Analyze the attached Local Habit Tracker source and implement the requested weekly summary while preserving current behavior and v1 saved data. Derive architecture and workflow from the actual source and change request. No external services or new dependencies.",
+    "descriptor": {
+      "fixtureId": "habit_tracker_source_v1",
+      "files": [
+        {
+          "path": "README.md",
+          "sha256": "6269cdc54f60fefa86300bc54ac6ccab477161ae6722f21331d38685d70a40d6"
+        },
+        {
+          "path": "index.html",
+          "sha256": "071242a8845e152ca07dd30d41d9e5b28b4b83f7aabf65c321db2aedf1f97feb"
+        },
+        {
+          "path": "package.json",
+          "sha256": "dead6108442cf61c659bb82fbb697009944bda7a0b69bf21edd7388bb6b2190a"
+        },
+        {
+          "path": "src/controller.js",
+          "sha256": "0a7663913e8511b8c9aecff42b3b4e7bacd960f7a72d58751925bd6429df1510"
+        },
+        {
+          "path": "src/date.js",
+          "sha256": "181f62254e03691bd64e81a7f52953094f42b8de98a8b6694dde10aa59c0aaaf"
+        },
+        {
+          "path": "src/habits.js",
+          "sha256": "32fa29bde00e274b73590807b68c4c6b035f4ab27c689c9a0d77b87499b91d6e"
+        },
+        {
+          "path": "src/main.js",
+          "sha256": "31551da2d2fb87b4103320c5d243c1afec7da7fd82af9547e02f578f0bf801da"
+        },
+        {
+          "path": "src/render.js",
+          "sha256": "263e584276115cd1139a03e2a313c7e6429d4893d1aeaf84eb4d0d486affd38c"
+        },
+        {
+          "path": "src/storage.js",
+          "sha256": "6f1a7c2bb34d0757f9582c7cfbd446cf0136d67ef59b3061353a28e616c20209"
+        },
+        {
+          "path": "styles.css",
+          "sha256": "a09ac8f6493d3f2b9e8568146545b585dfff9a02660251a2c66dcd5688a5ea6a"
+        },
+        {
+          "path": "tests/baseline.test.js",
+          "sha256": "aa3d85ca9fe7edbf869667115279aee103b828600d1486cdf87a7e5d92cbfa85"
+        }
+      ],
+      "requestSha256": "495bbfe60bf0c4db8ff3aba25b0c81ea31209e35a594fb5664405412fc48411a"
+    },
+    "inputDigest": "e677401f617ac34974387d9567f7d2fb6dd6da2959a9a0a75b49398c9bd1f174",
+    "enabled": true
+  }
+}

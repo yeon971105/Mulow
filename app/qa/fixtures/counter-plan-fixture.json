@@ -1,0 +1,1879 @@
+{
+  "design": {
+    "documentBinding": {
+      "revisionId": "plandoc_9eb2ee64-2b6d-4f0f-8303-92c6f470885b",
+      "documentDigest": "139890c8909bf0a0ebb6877eecedd8d04663def7a583df04922aab3ed137d16b",
+      "sourceBindingDigest": "3ddfb5288742518aa655cd930af6a349af25e73ba2ed475cebac37cee22730a0",
+      "indexDigest": "a713c31137c198fddec01e7ab00e7860348d47c5e5287a3270672f586404c27c",
+      "architectureDigest": "8c8ec1293112267424a287360996824fa916ad654aeb295f63c5ed2b8db111ab",
+      "architectureStageDigest": "41bd4451b507a96bc588b89e8a770984a3f8dc16ced1b6cfe9da0cb0393cdc44",
+      "workflowDigest": "3a0c4a9ba27c3247492450facd1fd380235152daedfe729d99bf4a5a5c3b1d19"
+    },
+    "sourceBinding": {
+      "native": {
+        "status": "empty"
+      },
+      "externalRevision": null,
+      "adoption": null,
+      "handoff": null
+    },
+    "plan": {
+      "goal": "Create and save the complete Plan document for a small React counter called Mac Counter QA. Start at 0. Increment adds 1. Decrement subtracts 1 but is disabled at 0; never allow negatives. Reset returns to 0. Use aria-live polite, keyboard focus and responsive styling. No backend, login, external network or persistent data; a fresh preview starts at 0. Include clear requirements and acceptance checks for generating Architecture and Workflow and then Build and Preview.",
+      "tasks": [
+        {
+          "id": "t1",
+          "title": "Scaffold React project and CounterApp shell",
+          "instruction": "Initialize React project (Vite) with CounterApp root component holding useState(0), heading Mac Counter QA, and mount via ReactDOM. Verify fresh load renders 0.",
+          "dependencies": [],
+          "role": "implementation",
+          "outputKind": "artifact",
+          "componentIds": [
+            "browser",
+            "counter-app"
+          ],
+          "phaseId": "p1",
+          "phaseTitle": "Foundation"
+        },
+        {
+          "id": "t2",
+          "title": "Implement CounterDisplay with aria-live polite",
+          "instruction": "Create CounterDisplay component receiving count prop, rendering numeric text with aria-live=\"polite\" and aria-atomic=\"true\". Wire to CounterApp.",
+          "dependencies": [
+            "t1"
+          ],
+          "role": "implementation",
+          "outputKind": "artifact",
+          "componentIds": [
+            "counter-app",
+            "counter-display"
+          ],
+          "phaseId": "p1",
+          "phaseTitle": "Foundation"
+        },
+        {
+          "id": "t3",
+          "title": "Implement Controls increment handler",
+          "instruction": "Add Increment button (+1) with onIncrement handler setCount(c=>c+1), accessible name, keyboard operable. Connect via props.",
+          "dependencies": [
+            "t1"
+          ],
+          "role": "implementation",
+          "outputKind": "artifact",
+          "componentIds": [
+            "counter-app",
+            "controls"
+          ],
+          "phaseId": "p2",
+          "phaseTitle": "Core Interactions"
+        },
+        {
+          "id": "t4",
+          "title": "Implement Decrement with disabled guard",
+          "instruction": "Add Decrement button with isDecrementDisabled=count===0, disabled prop, onDecrement using Math.max(0,c-1). Ensure never negative.",
+          "dependencies": [
+            "t1",
+            "t3"
+          ],
+          "role": "implementation",
+          "outputKind": "artifact",
+          "componentIds": [
+            "counter-app",
+            "controls"
+          ],
+          "phaseId": "p2",
+          "phaseTitle": "Core Interactions"
+        },
+        {
+          "id": "t5",
+          "title": "Implement Reset to zero",
+          "instruction": "Add Reset button with onReset setCount(0) from any value, accessible name, keyboard operable.",
+          "dependencies": [
+            "t1"
+          ],
+          "role": "implementation",
+          "outputKind": "artifact",
+          "componentIds": [
+            "counter-app",
+            "controls"
+          ],
+          "phaseId": "p2",
+          "phaseTitle": "Core Interactions"
+        },
+        {
+          "id": "t6",
+          "title": "Wire keyboard focus and interaction",
+          "instruction": "Ensure all buttons reachable via Tab, activatable via Enter/Space, visible focus ring via CSS outline. Test browser keyboard flow.",
+          "dependencies": [
+            "t3",
+            "t4",
+            "t5"
+          ],
+          "role": "implementation",
+          "outputKind": "artifact",
+          "componentIds": [
+            "browser",
+            "controls"
+          ],
+          "phaseId": "p3",
+          "phaseTitle": "Accessibility"
+        },
+        {
+          "id": "t7",
+          "title": "Apply responsive styling and focus states",
+          "instruction": "Implement CSS flex/grid, media queries for 320px and 1024px, responsive layout, focus indicators. Apply to CounterApp.",
+          "dependencies": [
+            "t2"
+          ],
+          "role": "implementation",
+          "outputKind": "artifact",
+          "componentIds": [
+            "styles",
+            "counter-app"
+          ],
+          "phaseId": "p3",
+          "phaseTitle": "Accessibility"
+        },
+        {
+          "id": "t8",
+          "title": "Enforce no-backend no-persistence constraint",
+          "instruction": "Audit codebase for no fetch, no localStorage/sessionStorage/IndexedDB/cookies, no backend calls. Ensure refresh returns to 0.",
+          "dependencies": [
+            "t1"
+          ],
+          "role": "implementation",
+          "outputKind": "artifact",
+          "componentIds": [
+            "browser",
+            "counter-app"
+          ],
+          "phaseId": "p4",
+          "phaseTitle": "Constraints and Verification"
+        },
+        {
+          "id": "t9",
+          "title": "Manual preview check initial load",
+          "instruction": "Load preview, verify counter displays 0, heading present, Decrement disabled. Document result.",
+          "dependencies": [
+            "t2",
+            "t4",
+            "t7"
+          ],
+          "role": "implementation",
+          "outputKind": "artifact",
+          "componentIds": [
+            "browser",
+            "counter-app",
+            "counter-display"
+          ],
+          "phaseId": "p4",
+          "phaseTitle": "Constraints and Verification"
+        },
+        {
+          "id": "t10",
+          "title": "Manual preview check increment decrement reset",
+          "instruction": "Perform T2-T4: increment 3x to 3, decrement to 2, decrement to 0 verify disabled, increment to 5 reset to 0. Verify immediate updates.",
+          "dependencies": [
+            "t9"
+          ],
+          "role": "implementation",
+          "outputKind": "artifact",
+          "componentIds": [
+            "counter-app",
+            "controls",
+            "counter-display"
+          ],
+          "phaseId": "p4",
+          "phaseTitle": "Constraints and Verification"
+        },
+        {
+          "id": "t11",
+          "title": "Verify aria-live and accessibility attributes",
+          "instruction": "Inspect CounterDisplay for aria-live polite, aria-atomic, button accessible names, disabled state. Keyboard-only Tab/Enter/Space test.",
+          "dependencies": [
+            "t6"
+          ],
+          "role": "implementation",
+          "outputKind": "artifact",
+          "componentIds": [
+            "counter-display",
+            "browser",
+            "controls"
+          ],
+          "phaseId": "p5",
+          "phaseTitle": "Final Validation"
+        },
+        {
+          "id": "t12",
+          "title": "Verify responsive viewports and refresh",
+          "instruction": "Resize to 320px and 1024px verify no overflow, refresh verify returns to 0, confirm no network calls in devtools.",
+          "dependencies": [
+            "t7",
+            "t8"
+          ],
+          "role": "implementation",
+          "outputKind": "artifact",
+          "componentIds": [
+            "styles",
+            "browser",
+            "counter-app"
+          ],
+          "phaseId": "p5",
+          "phaseTitle": "Final Validation"
+        }
+      ],
+      "architecture": {
+        "format": "musepilot-architecture",
+        "version": 1,
+        "kind": "components",
+        "nodes": [
+          {
+            "id": "browser",
+            "label": "Browser Runtime",
+            "type": "boundary",
+            "description": "Browser execution environment hosting React app, provides DOM, keyboard, viewport, no persistence",
+            "responsibilities": [
+              "Host React mount",
+              "Provide keyboard and viewport"
+            ],
+            "interfaces": [
+              "DOM",
+              "Keyboard events"
+            ],
+            "dataOwnership": [],
+            "boundary": "client",
+            "designStatus": "required",
+            "rationale": "Client-only execution per R11 R12"
+          },
+          {
+            "id": "counter-app",
+            "label": "CounterApp Root Component",
+            "type": "component",
+            "description": "React functional component holding count state useState(0), renders heading Mac Counter QA and composes display and controls",
+            "responsibilities": [
+              "Hold count state 0..n",
+              "Provide onIncrement c=>c+1, onDecrement Math.max(0,c-1), onReset 0",
+              "Compute isDecrementDisabled = count===0"
+            ],
+            "interfaces": [
+              "React state: count number",
+              "Handlers: onIncrement, onDecrement, onReset"
+            ],
+            "dataOwnership": [
+              "count state in-memory only"
+            ],
+            "boundary": "client",
+            "designStatus": "required",
+            "rationale": "Central state owner per plan 5.1"
+          },
+          {
+            "id": "counter-display",
+            "label": "CounterDisplay",
+            "type": "component",
+            "description": "Presents current count with aria-live=polite and aria-atomic=true, updates immediately on re-render",
+            "responsibilities": [
+              "Render numeric count as text not HTML",
+              "Expose aria-live polite"
+            ],
+            "interfaces": [
+              "Props: count number",
+              "DOM element with aria-live=polite aria-atomic=true"
+            ],
+            "dataOwnership": [],
+            "boundary": "client",
+            "designStatus": "required",
+            "rationale": "Implements R5 R7"
+          },
+          {
+            "id": "controls",
+            "label": "Controls Group",
+            "type": "component",
+            "description": "Increment, Decrement, Reset buttons with click handlers, disabled logic for Decrement at 0, keyboard operable",
+            "responsibilities": [
+              "Increment +1",
+              "Decrement -1 with disabled at 0 and Math.max guard",
+              "Reset to 0",
+              "Accessible names and focus indicators"
+            ],
+            "interfaces": [
+              "Props: onIncrement, onDecrement, onReset, isDecrementDisabled",
+              "DOM buttons with disabled attribute"
+            ],
+            "dataOwnership": [],
+            "boundary": "client",
+            "designStatus": "required",
+            "rationale": "Implements R2 R3 R4 R6 R8"
+          },
+          {
+            "id": "styles",
+            "label": "Responsive Styles",
+            "type": "module",
+            "description": "CSS flex/grid with media queries for 320px to wide viewports, focus ring styling",
+            "responsibilities": [
+              "Responsive layout",
+              "Visible focus indicators"
+            ],
+            "interfaces": [
+              "CSS classes"
+            ],
+            "dataOwnership": [],
+            "boundary": "client",
+            "designStatus": "proposed",
+            "rationale": "Implements R9 and focus part of R8"
+          }
+        ],
+        "edges": [
+          {
+            "from": "browser",
+            "to": "counter-app",
+            "label": "mounts and renders",
+            "type": "render",
+            "protocol": "ReactDOM"
+          },
+          {
+            "from": "counter-app",
+            "to": "counter-display",
+            "label": "passes count prop",
+            "type": "prop",
+            "protocol": "React props"
+          },
+          {
+            "from": "counter-app",
+            "to": "controls",
+            "label": "passes handlers and disabled flag",
+            "type": "prop",
+            "protocol": "React props"
+          },
+          {
+            "from": "controls",
+            "to": "counter-app",
+            "label": "user activation invokes handlers",
+            "type": "event",
+            "protocol": "DOM click/keyboard"
+          },
+          {
+            "from": "browser",
+            "to": "controls",
+            "label": "keyboard Tab/Enter/Space focus and activation",
+            "type": "interaction",
+            "protocol": "Keyboard DOM"
+          },
+          {
+            "from": "styles",
+            "to": "counter-app",
+            "label": "applies responsive and focus styles",
+            "type": "styling",
+            "protocol": "CSS"
+          },
+          {
+            "from": "counter-display",
+            "to": "browser",
+            "label": "aria-live polite announcement",
+            "type": "a11y",
+            "protocol": "ARIA live region"
+          }
+        ],
+        "groups": [
+          {
+            "id": "client-app",
+            "label": "Client React App"
+          },
+          {
+            "id": "a11y",
+            "label": "Accessibility Layer"
+          }
+        ],
+        "assumptions": [
+          "React functional components with hooks acceptable",
+          "Vite/CRA static build for preview",
+          "No persistence APIs used per R11 R12"
+        ],
+        "designDecisions": [
+          "Single useState in CounterApp as source of truth",
+          "Disabled prop plus Math.max guard for non-negative R3",
+          "aria-live polite on display element R7"
+        ],
+        "designAlternatives": [
+          "Considered useReducer but useState sufficient for single counter",
+          "No context/store needed"
+        ]
+      },
+      "requiredCapabilities": [
+        "frontend_compile"
+      ],
+      "clarificationQuestions": [],
+      "planningReadiness": "ready_for_review",
+      "planningClarificationQuestions": [],
+      "documentPlanningContract": "document-design-v1",
+      "planDocument": {
+        "format": "mulow-plan-document",
+        "version": 1,
+        "title": "Mac Counter QA - Plan Document",
+        "authorAssessment": {
+          "readiness": "ready_for_design",
+          "questions": [],
+          "hypotheses": []
+        },
+        "markdown": "# Mac Counter QA - Plan Document\n\n## 1. Overview\nMac Counter QA is a small React counter application for QA demonstration. It starts at 0 and provides increment, decrement, and reset controls with accessibility and responsive styling. No backend, login, external network, or persistent data is involved; a fresh preview always starts at 0.\n\n## 2. Goals\n- Provide a simple, reliable counter starting at 0.\n- Demonstrate correct increment, decrement, and reset behavior.\n- Enforce non-negative constraint (never below 0).\n- Meet accessibility basics: aria-live polite, keyboard focus, semantic controls.\n- Provide responsive styling for desktop and mobile.\n- Enable Architecture and Workflow generation, then Build and Preview.\n\n## 3. Non-Goals\n- No backend, API, database, or server-side logic.\n- No authentication, login, user accounts, or roles.\n- No external network calls or third-party integrations.\n- No persistent storage (localStorage, sessionStorage, IndexedDB, cookies).\n- No analytics, telemetry, or tracking.\n- No multi-counter, history, undo, or advanced features.\n\n## 4. Requirements\n\n### 4.1 Functional Requirements\n- R1: App displays a counter value starting at 0 on initial load and on fresh preview.\n- R2: Increment button adds 1 to the counter on each activation.\n- R3: Decrement button subtracts 1 but is disabled when counter is 0; counter never goes negative.\n- R4: Reset button returns counter to 0 from any value.\n- R5: Counter value is visibly displayed and updates immediately after each action.\n- R6: All controls are usable via mouse/touch and keyboard (Tab, Enter/Space).\n\n### 4.2 Accessibility & UX Requirements\n- R7: Counter display uses aria-live=\"polite\" to announce changes.\n- R8: Buttons have accessible names, visible focus indicators, and proper disabled state for Decrement at 0.\n- R9: Layout is responsive and readable on mobile and desktop viewports.\n- R10: App has a clear title/heading identifying it as Mac Counter QA.\n\n### 4.3 Technical Constraints\n- R11: Implementation is React frontend only; no backend or persistent data.\n- R12: Fresh preview/refresh always starts at 0 with no restored state.\n\n## 5. Components and Boundaries\n\n### 5.1 In Scope Components\n- CounterApp (root component): holds count state (useState(0)), renders heading, display, and controls.\n- CounterDisplay: presents current count with aria-live=\"polite\" and aria-atomic=\"true\".\n- Controls: Increment, Decrement, Reset buttons with click handlers and disabled logic.\n- Styles: responsive CSS (flex/grid, media queries) for layout and focus states.\n\n### 5.2 Out of Scope / Boundaries\n- No backend service, API layer, or database.\n- No auth provider or session management.\n- No network client or external fetch.\n- No persistence adapter.\n\n### 5.3 Data Flow\nUser action -> event handler -> setCount updater -> re-render -> CounterDisplay updates -> aria-live announcement.\n\n## 6. Interfaces\n\n### 6.1 User Interface\n- Heading: \"Mac Counter QA\"\n- Display: numeric value, aria-live=\"polite\"\n- Buttons: Increment (+1), Decrement (-1, disabled at 0), Reset (to 0)\n- Keyboard: Tab to focus, Enter/Space to activate, focus ring visible.\n\n### 6.2 Component Props/State (Conceptual)\n- State: count: number (0..n, integer)\n- Handlers: onIncrement(): setCount(c => c+1), onDecrement(): setCount(c => Math.max(0, c-1)), onReset(): setCount(0)\n- Derived: isDecrementDisabled = count === 0\n\n### 6.3 No External Interfaces\nNo REST, GraphQL, or storage interfaces.\n\n## 7. Security Considerations\n- No authentication or authorization required.\n- No sensitive data handled.\n- No external network reduces attack surface.\n- Ensure no injection via display (render count as text, not HTML).\n- No persistence means no data leakage across sessions.\n\n## 8. Workflow, Dependencies, Parallel Work\n\n### 8.1 Workflow Phases\n1. Plan (this document) - requirements and acceptance defined.\n2. Architecture and Workflow - derive component structure, state flow, styling approach.\n3. Build and Preview - implement React components, compile, preview at 0.\n\n### 8.2 Dependencies\n- Architecture depends on Plan approval.\n- Build depends on Architecture.\n- Preview depends on successful Build/compile.\n\n### 8.3 Parallel Work Opportunities\n- Styling/responsive design can proceed in parallel with component logic.\n- Accessibility attributes (aria-live, focus) can be added alongside button implementation.\n- Acceptance checks can be drafted in parallel with Architecture.\n\n## 9. Acceptance and Planned Tests\n\n### 9.1 Acceptance Criteria\n- A1: On load/fresh preview, counter displays 0.\n- A2: Clicking Increment increases value by 1 each time (0->1->2).\n- A3: Decrement is disabled at 0 and counter never shows negative; enabled when >0 and subtracts 1.\n- A4: Reset returns any value to 0.\n- A5: Counter display has aria-live=\"polite\" (inspectable).\n- A6: All buttons reachable and operable via keyboard with visible focus.\n- A7: Layout remains usable on narrow (320px) and wide viewports.\n- A8: No backend calls, no login UI, refresh returns to 0.\n\n### 9.2 Planned Tests (Manual/Preview Checks)\n- T1: Load app, verify 0 displayed, Decrement disabled.\n- T2: Increment 3 times, verify 3; Decrement once, verify 2.\n- T3: Decrement to 0, verify disabled and no negative on extra clicks/key presses.\n- T4: Increment to 5, Reset, verify 0.\n- T5: Keyboard-only: Tab through controls, activate with Enter/Space.\n- T6: Inspect element for aria-live=\"polite\" on display.\n- T7: Resize viewport to 320px and 1024px, verify no overflow/cropping.\n- T8: Refresh preview, verify returns to 0 (no persistence).\n\n## 10. Assumptions\n- React with functional components and hooks is acceptable.\n- Standard build tooling (Vite/CRA/Next static) available for preview.\n- No specific design system required; simple clean styling suffices.\n- Browser support: modern evergreen browsers.\n\n## 11. Risks and Rollback\n\n### 11.1 Risks\n- Risk: Decrement not properly disabled leading to negatives -> Mitigate with disabled prop + Math.max guard.\n- Risk: aria-live missing -> Mitigate with explicit attribute and manual inspection.\n- Risk: State persistence accidentally added -> Mitigate by prohibiting storage APIs.\n- Risk: Responsive breakage -> Mitigate with flex layout and viewport testing.\n\n### 11.2 Rollback\n- No deployment rollback needed (frontend preview only).\n- If Build fails, revert to last compiling commit; re-verify acceptance A1-A8.\n\n## 12. Open Questions\nNone - requirements are clear for Architecture and Build phases.\n",
+        "index": null
+      },
+      "documentInterpretationIndex": {
+        "format": "mulow-document-index",
+        "version": 1,
+        "retirements": [],
+        "requirements": [
+          {
+            "id": "r1",
+            "statement": "App displays a counter value starting at 0 on initial load and on fresh preview.",
+            "sectionRefs": [
+              {
+                "startLine": 25,
+                "endLine": 25
+              }
+            ],
+            "acceptanceIds": [
+              "a1"
+            ],
+            "capabilityRefs": [
+              "frontend_compile"
+            ]
+          },
+          {
+            "id": "r2",
+            "statement": "Increment button adds 1 to the counter on each activation.",
+            "sectionRefs": [
+              {
+                "startLine": 26,
+                "endLine": 26
+              }
+            ],
+            "acceptanceIds": [
+              "a2"
+            ],
+            "capabilityRefs": [
+              "frontend_compile"
+            ]
+          },
+          {
+            "id": "r3",
+            "statement": "Decrement button subtracts 1 but is disabled when counter is 0; counter never goes negative.",
+            "sectionRefs": [
+              {
+                "startLine": 27,
+                "endLine": 27
+              }
+            ],
+            "acceptanceIds": [
+              "a3"
+            ],
+            "capabilityRefs": [
+              "frontend_compile"
+            ]
+          },
+          {
+            "id": "r4",
+            "statement": "Reset button returns counter to 0 from any value.",
+            "sectionRefs": [
+              {
+                "startLine": 28,
+                "endLine": 28
+              }
+            ],
+            "acceptanceIds": [
+              "a4"
+            ],
+            "capabilityRefs": [
+              "frontend_compile"
+            ]
+          },
+          {
+            "id": "r5",
+            "statement": "Counter value is visibly displayed and updates immediately after each action.",
+            "sectionRefs": [
+              {
+                "startLine": 29,
+                "endLine": 29
+              }
+            ],
+            "acceptanceIds": [
+              "a1",
+              "a2"
+            ],
+            "capabilityRefs": [
+              "frontend_compile"
+            ]
+          },
+          {
+            "id": "r6",
+            "statement": "All controls are usable via mouse/touch and keyboard (Tab, Enter/Space).",
+            "sectionRefs": [
+              {
+                "startLine": 30,
+                "endLine": 30
+              }
+            ],
+            "acceptanceIds": [
+              "a6"
+            ],
+            "capabilityRefs": [
+              "frontend_compile"
+            ]
+          },
+          {
+            "id": "r7",
+            "statement": "Counter display uses aria-live=\"polite\" to announce changes.",
+            "sectionRefs": [
+              {
+                "startLine": 33,
+                "endLine": 33
+              }
+            ],
+            "acceptanceIds": [
+              "a5"
+            ],
+            "capabilityRefs": [
+              "frontend_compile"
+            ]
+          },
+          {
+            "id": "r8",
+            "statement": "Buttons have accessible names, visible focus indicators, and proper disabled state for Decrement at 0.",
+            "sectionRefs": [
+              {
+                "startLine": 34,
+                "endLine": 34
+              }
+            ],
+            "acceptanceIds": [
+              "a3",
+              "a6"
+            ],
+            "capabilityRefs": [
+              "frontend_compile"
+            ]
+          },
+          {
+            "id": "r9",
+            "statement": "Layout is responsive and readable on mobile and desktop viewports.",
+            "sectionRefs": [
+              {
+                "startLine": 35,
+                "endLine": 35
+              }
+            ],
+            "acceptanceIds": [
+              "a7"
+            ],
+            "capabilityRefs": [
+              "frontend_compile"
+            ]
+          },
+          {
+            "id": "r10",
+            "statement": "App has a clear title/heading identifying it as Mac Counter QA.",
+            "sectionRefs": [
+              {
+                "startLine": 36,
+                "endLine": 36
+              }
+            ],
+            "acceptanceIds": [
+              "a1"
+            ],
+            "capabilityRefs": [
+              "frontend_compile"
+            ]
+          },
+          {
+            "id": "r11",
+            "statement": "Implementation is React frontend only; no backend or persistent data.",
+            "sectionRefs": [
+              {
+                "startLine": 39,
+                "endLine": 39
+              }
+            ],
+            "acceptanceIds": [
+              "a8"
+            ],
+            "capabilityRefs": [
+              "frontend_compile"
+            ]
+          },
+          {
+            "id": "r12",
+            "statement": "Fresh preview/refresh always starts at 0 with no restored state.",
+            "sectionRefs": [
+              {
+                "startLine": 40,
+                "endLine": 40
+              }
+            ],
+            "acceptanceIds": [
+              "a1",
+              "a8"
+            ],
+            "capabilityRefs": [
+              "frontend_compile"
+            ]
+          }
+        ],
+        "acceptance": [
+          {
+            "id": "a1",
+            "criterion": "On load/fresh preview, counter displays 0.",
+            "sectionRefs": [
+              {
+                "startLine": 102,
+                "endLine": 102
+              }
+            ]
+          },
+          {
+            "id": "a2",
+            "criterion": "Clicking Increment increases value by 1 each time (0->1->2).",
+            "sectionRefs": [
+              {
+                "startLine": 103,
+                "endLine": 103
+              }
+            ]
+          },
+          {
+            "id": "a3",
+            "criterion": "Decrement is disabled at 0 and counter never shows negative; enabled when >0 and subtracts 1.",
+            "sectionRefs": [
+              {
+                "startLine": 104,
+                "endLine": 104
+              }
+            ]
+          },
+          {
+            "id": "a4",
+            "criterion": "Reset returns any value to 0.",
+            "sectionRefs": [
+              {
+                "startLine": 105,
+                "endLine": 105
+              }
+            ]
+          },
+          {
+            "id": "a5",
+            "criterion": "Counter display has aria-live=\"polite\" (inspectable).",
+            "sectionRefs": [
+              {
+                "startLine": 106,
+                "endLine": 106
+              }
+            ]
+          },
+          {
+            "id": "a6",
+            "criterion": "All buttons reachable and operable via keyboard with visible focus.",
+            "sectionRefs": [
+              {
+                "startLine": 107,
+                "endLine": 107
+              }
+            ]
+          },
+          {
+            "id": "a7",
+            "criterion": "Layout remains usable on narrow (320px) and wide viewports.",
+            "sectionRefs": [
+              {
+                "startLine": 108,
+                "endLine": 108
+              }
+            ]
+          },
+          {
+            "id": "a8",
+            "criterion": "No backend calls, no login UI, refresh returns to 0.",
+            "sectionRefs": [
+              {
+                "startLine": 109,
+                "endLine": 109
+              }
+            ]
+          }
+        ],
+        "decisions": [
+          {
+            "id": "d1",
+            "question": "What frontend stack is required?",
+            "status": "document_stated",
+            "answer": "Implementation is React frontend only; no backend or persistent data.",
+            "sectionRefs": [
+              {
+                "startLine": 39,
+                "endLine": 39
+              }
+            ]
+          },
+          {
+            "id": "d2",
+            "question": "What is initial counter value?",
+            "status": "document_stated",
+            "answer": "App displays a counter value starting at 0 on initial load and on fresh preview.",
+            "sectionRefs": [
+              {
+                "startLine": 25,
+                "endLine": 25
+              }
+            ]
+          },
+          {
+            "id": "d3",
+            "question": "How is accessibility announcement handled?",
+            "status": "document_stated",
+            "answer": "Counter display uses aria-live=\"polite\" to announce changes.",
+            "sectionRefs": [
+              {
+                "startLine": 33,
+                "endLine": 33
+              }
+            ]
+          },
+          {
+            "id": "d4",
+            "question": "How is negative prevention enforced?",
+            "status": "document_stated",
+            "answer": "Decrement button subtracts 1 but is disabled when counter is 0; counter never goes negative.",
+            "sectionRefs": [
+              {
+                "startLine": 27,
+                "endLine": 27
+              }
+            ]
+          },
+          {
+            "id": "d5",
+            "question": "Is persistent storage allowed?",
+            "status": "document_stated",
+            "answer": "No persistent storage (localStorage, sessionStorage, IndexedDB, cookies).",
+            "sectionRefs": [
+              {
+                "startLine": 18,
+                "endLine": 18
+              }
+            ]
+          }
+        ],
+        "assumptions": [
+          {
+            "id": "h1",
+            "statement": "React with functional components and hooks is acceptable.",
+            "sectionRefs": [
+              {
+                "startLine": 122,
+                "endLine": 122
+              }
+            ]
+          },
+          {
+            "id": "h2",
+            "statement": "Standard build tooling (Vite/CRA/Next static) available for preview.",
+            "sectionRefs": [
+              {
+                "startLine": 123,
+                "endLine": 123
+              }
+            ]
+          },
+          {
+            "id": "h3",
+            "statement": "No specific design system required; simple clean styling suffices.",
+            "sectionRefs": [
+              {
+                "startLine": 124,
+                "endLine": 124
+              }
+            ]
+          },
+          {
+            "id": "h4",
+            "statement": "Browser support: modern evergreen browsers.",
+            "sectionRefs": [
+              {
+                "startLine": 125,
+                "endLine": 125
+              }
+            ]
+          }
+        ],
+        "risks": [
+          {
+            "id": "k1",
+            "impact": "Decrement not properly disabled leading to negatives",
+            "mitigation": "Mitigate with disabled prop + Math.max guard.",
+            "rollback": "Revert to last compiling commit; re-verify acceptance A1-A8.",
+            "requirementIds": [
+              "r3"
+            ],
+            "sectionRefs": [
+              {
+                "startLine": 130,
+                "endLine": 130
+              }
+            ]
+          },
+          {
+            "id": "k2",
+            "impact": "aria-live missing causing accessibility failure",
+            "mitigation": "Mitigate with explicit attribute and manual inspection.",
+            "rollback": "Revert to last compiling commit; re-verify acceptance A1-A8.",
+            "requirementIds": [
+              "r7"
+            ],
+            "sectionRefs": [
+              {
+                "startLine": 131,
+                "endLine": 131
+              }
+            ]
+          },
+          {
+            "id": "k3",
+            "impact": "State persistence accidentally added violating no-persistence constraint",
+            "mitigation": "Mitigate by prohibiting storage APIs.",
+            "rollback": "Remove storage code and revert to last compiling commit.",
+            "requirementIds": [
+              "r11",
+              "r12"
+            ],
+            "sectionRefs": [
+              {
+                "startLine": 132,
+                "endLine": 132
+              }
+            ]
+          },
+          {
+            "id": "k4",
+            "impact": "Responsive breakage on mobile/desktop",
+            "mitigation": "Mitigate with flex layout and viewport testing.",
+            "rollback": "Revert to last compiling commit; re-verify acceptance A1-A8.",
+            "requirementIds": [
+              "r9"
+            ],
+            "sectionRefs": [
+              {
+                "startLine": 133,
+                "endLine": 133
+              }
+            ]
+          }
+        ],
+        "blockers": []
+      },
+      "documentArchitectureStage": {
+        "architecture": {
+          "format": "musepilot-architecture",
+          "version": 1,
+          "kind": "components",
+          "nodes": [
+            {
+              "id": "browser",
+              "label": "Browser Runtime",
+              "type": "boundary",
+              "description": "Browser execution environment hosting React app, provides DOM, keyboard, viewport, no persistence",
+              "responsibilities": [
+                "Host React mount",
+                "Provide keyboard and viewport"
+              ],
+              "interfaces": [
+                "DOM",
+                "Keyboard events"
+              ],
+              "dataOwnership": [],
+              "boundary": "client",
+              "designStatus": "required",
+              "rationale": "Client-only execution per R11 R12"
+            },
+            {
+              "id": "counter-app",
+              "label": "CounterApp Root Component",
+              "type": "component",
+              "description": "React functional component holding count state useState(0), renders heading Mac Counter QA and composes display and controls",
+              "responsibilities": [
+                "Hold count state 0..n",
+                "Provide onIncrement c=>c+1, onDecrement Math.max(0,c-1), onReset 0",
+                "Compute isDecrementDisabled = count===0"
+              ],
+              "interfaces": [
+                "React state: count number",
+                "Handlers: onIncrement, onDecrement, onReset"
+              ],
+              "dataOwnership": [
+                "count state in-memory only"
+              ],
+              "boundary": "client",
+              "designStatus": "required",
+              "rationale": "Central state owner per plan 5.1"
+            },
+            {
+              "id": "counter-display",
+              "label": "CounterDisplay",
+              "type": "component",
+              "description": "Presents current count with aria-live=polite and aria-atomic=true, updates immediately on re-render",
+              "responsibilities": [
+                "Render numeric count as text not HTML",
+                "Expose aria-live polite"
+              ],
+              "interfaces": [
+                "Props: count number",
+                "DOM element with aria-live=polite aria-atomic=true"
+              ],
+              "dataOwnership": [],
+              "boundary": "client",
+              "designStatus": "required",
+              "rationale": "Implements R5 R7"
+            },
+            {
+              "id": "controls",
+              "label": "Controls Group",
+              "type": "component",
+              "description": "Increment, Decrement, Reset buttons with click handlers, disabled logic for Decrement at 0, keyboard operable",
+              "responsibilities": [
+                "Increment +1",
+                "Decrement -1 with disabled at 0 and Math.max guard",
+                "Reset to 0",
+                "Accessible names and focus indicators"
+              ],
+              "interfaces": [
+                "Props: onIncrement, onDecrement, onReset, isDecrementDisabled",
+                "DOM buttons with disabled attribute"
+              ],
+              "dataOwnership": [],
+              "boundary": "client",
+              "designStatus": "required",
+              "rationale": "Implements R2 R3 R4 R6 R8"
+            },
+            {
+              "id": "styles",
+              "label": "Responsive Styles",
+              "type": "module",
+              "description": "CSS flex/grid with media queries for 320px to wide viewports, focus ring styling",
+              "responsibilities": [
+                "Responsive layout",
+                "Visible focus indicators"
+              ],
+              "interfaces": [
+                "CSS classes"
+              ],
+              "dataOwnership": [],
+              "boundary": "client",
+              "designStatus": "proposed",
+              "rationale": "Implements R9 and focus part of R8"
+            }
+          ],
+          "edges": [
+            {
+              "from": "browser",
+              "to": "counter-app",
+              "label": "mounts and renders",
+              "type": "render",
+              "protocol": "ReactDOM"
+            },
+            {
+              "from": "counter-app",
+              "to": "counter-display",
+              "label": "passes count prop",
+              "type": "prop",
+              "protocol": "React props"
+            },
+            {
+              "from": "counter-app",
+              "to": "controls",
+              "label": "passes handlers and disabled flag",
+              "type": "prop",
+              "protocol": "React props"
+            },
+            {
+              "from": "controls",
+              "to": "counter-app",
+              "label": "user activation invokes handlers",
+              "type": "event",
+              "protocol": "DOM click/keyboard"
+            },
+            {
+              "from": "browser",
+              "to": "controls",
+              "label": "keyboard Tab/Enter/Space focus and activation",
+              "type": "interaction",
+              "protocol": "Keyboard DOM"
+            },
+            {
+              "from": "styles",
+              "to": "counter-app",
+              "label": "applies responsive and focus styles",
+              "type": "styling",
+              "protocol": "CSS"
+            },
+            {
+              "from": "counter-display",
+              "to": "browser",
+              "label": "aria-live polite announcement",
+              "type": "a11y",
+              "protocol": "ARIA live region"
+            }
+          ],
+          "groups": [
+            {
+              "id": "client-app",
+              "label": "Client React App"
+            },
+            {
+              "id": "a11y",
+              "label": "Accessibility Layer"
+            }
+          ],
+          "assumptions": [
+            "React functional components with hooks acceptable",
+            "Vite/CRA static build for preview",
+            "No persistence APIs used per R11 R12"
+          ],
+          "designDecisions": [
+            "Single useState in CounterApp as source of truth",
+            "Disabled prop plus Math.max guard for non-negative R3",
+            "aria-live polite on display element R7"
+          ],
+          "designAlternatives": [
+            "Considered useReducer but useState sufficient for single counter",
+            "No context/store needed"
+          ]
+        },
+        "dataFlows": [
+          {
+            "id": "f1",
+            "from": "browser",
+            "to": "counter-app",
+            "label": "mounts and renders",
+            "type": "render",
+            "protocol": "ReactDOM",
+            "description": "Initial mount renders app with count 0 and heading Mac Counter QA",
+            "requirementIds": [
+              "r1",
+              "r10",
+              "r11",
+              "r12"
+            ]
+          },
+          {
+            "id": "f2",
+            "from": "counter-app",
+            "to": "counter-display",
+            "label": "passes count prop",
+            "type": "prop",
+            "protocol": "React props",
+            "description": "Count prop flows to display for visible immediate update",
+            "requirementIds": [
+              "r1",
+              "r5"
+            ]
+          },
+          {
+            "id": "f3",
+            "from": "counter-app",
+            "to": "controls",
+            "label": "passes handlers and disabled flag",
+            "type": "prop",
+            "protocol": "React props",
+            "description": "Handlers and isDecrementDisabled flag passed to controls",
+            "requirementIds": [
+              "r2",
+              "r3",
+              "r4",
+              "r8"
+            ]
+          },
+          {
+            "id": "f4",
+            "from": "controls",
+            "to": "counter-app",
+            "label": "user activation invokes handlers",
+            "type": "event",
+            "protocol": "DOM click/keyboard",
+            "description": "Increment activation increments count by 1",
+            "requirementIds": [
+              "r2",
+              "r5"
+            ]
+          },
+          {
+            "id": "f5",
+            "from": "controls",
+            "to": "counter-app",
+            "label": "user activation invokes handlers",
+            "type": "event",
+            "protocol": "DOM click/keyboard",
+            "description": "Decrement activation decrements with disabled at 0 never negative",
+            "requirementIds": [
+              "r3",
+              "r8"
+            ]
+          },
+          {
+            "id": "f6",
+            "from": "controls",
+            "to": "counter-app",
+            "label": "user activation invokes handlers",
+            "type": "event",
+            "protocol": "DOM click/keyboard",
+            "description": "Reset activation returns count to 0",
+            "requirementIds": [
+              "r4"
+            ]
+          },
+          {
+            "id": "f7",
+            "from": "browser",
+            "to": "controls",
+            "label": "keyboard Tab/Enter/Space focus and activation",
+            "type": "interaction",
+            "protocol": "Keyboard DOM",
+            "description": "Keyboard Tab/Enter/Space focus and operate controls",
+            "requirementIds": [
+              "r6",
+              "r8"
+            ]
+          },
+          {
+            "id": "f8",
+            "from": "styles",
+            "to": "counter-app",
+            "label": "applies responsive and focus styles",
+            "type": "styling",
+            "protocol": "CSS",
+            "description": "Responsive and focus styles applied",
+            "requirementIds": [
+              "r8",
+              "r9"
+            ]
+          },
+          {
+            "id": "f9",
+            "from": "counter-display",
+            "to": "browser",
+            "label": "aria-live polite announcement",
+            "type": "a11y",
+            "protocol": "ARIA live region",
+            "description": "Display announces changes via aria-live polite",
+            "requirementIds": [
+              "r7"
+            ]
+          }
+        ]
+      },
+      "documentBinding": {
+        "revisionId": "plandoc_9eb2ee64-2b6d-4f0f-8303-92c6f470885b",
+        "documentDigest": "139890c8909bf0a0ebb6877eecedd8d04663def7a583df04922aab3ed137d16b",
+        "sourceBindingDigest": "3ddfb5288742518aa655cd930af6a349af25e73ba2ed475cebac37cee22730a0",
+        "indexDigest": "a713c31137c198fddec01e7ab00e7860348d47c5e5287a3270672f586404c27c",
+        "architectureDigest": "8c8ec1293112267424a287360996824fa916ad654aeb295f63c5ed2b8db111ab",
+        "architectureStageDigest": "41bd4451b507a96bc588b89e8a770984a3f8dc16ced1b6cfe9da0cb0393cdc44",
+        "workflowDigest": "3a0c4a9ba27c3247492450facd1fd380235152daedfe729d99bf4a5a5c3b1d19"
+      },
+      "planArtifact": {
+        "format": "mulow-plan-artifact",
+        "version": 1,
+        "retirements": [],
+        "requirements": [
+          {
+            "id": "r1",
+            "statement": "App displays a counter value starting at 0 on initial load and on fresh preview.",
+            "acceptanceIds": [
+              "a1"
+            ],
+            "capabilityRefs": [
+              "frontend_compile"
+            ]
+          },
+          {
+            "id": "r2",
+            "statement": "Increment button adds 1 to the counter on each activation.",
+            "acceptanceIds": [
+              "a2"
+            ],
+            "capabilityRefs": [
+              "frontend_compile"
+            ]
+          },
+          {
+            "id": "r3",
+            "statement": "Decrement button subtracts 1 but is disabled when counter is 0; counter never goes negative.",
+            "acceptanceIds": [
+              "a3"
+            ],
+            "capabilityRefs": [
+              "frontend_compile"
+            ]
+          },
+          {
+            "id": "r4",
+            "statement": "Reset button returns counter to 0 from any value.",
+            "acceptanceIds": [
+              "a4"
+            ],
+            "capabilityRefs": [
+              "frontend_compile"
+            ]
+          },
+          {
+            "id": "r5",
+            "statement": "Counter value is visibly displayed and updates immediately after each action.",
+            "acceptanceIds": [
+              "a1",
+              "a2"
+            ],
+            "capabilityRefs": [
+              "frontend_compile"
+            ]
+          },
+          {
+            "id": "r6",
+            "statement": "All controls are usable via mouse/touch and keyboard (Tab, Enter/Space).",
+            "acceptanceIds": [
+              "a6"
+            ],
+            "capabilityRefs": [
+              "frontend_compile"
+            ]
+          },
+          {
+            "id": "r7",
+            "statement": "Counter display uses aria-live=\"polite\" to announce changes.",
+            "acceptanceIds": [
+              "a5"
+            ],
+            "capabilityRefs": [
+              "frontend_compile"
+            ]
+          },
+          {
+            "id": "r8",
+            "statement": "Buttons have accessible names, visible focus indicators, and proper disabled state for Decrement at 0.",
+            "acceptanceIds": [
+              "a3",
+              "a6"
+            ],
+            "capabilityRefs": [
+              "frontend_compile"
+            ]
+          },
+          {
+            "id": "r9",
+            "statement": "Layout is responsive and readable on mobile and desktop viewports.",
+            "acceptanceIds": [
+              "a7"
+            ],
+            "capabilityRefs": [
+              "frontend_compile"
+            ]
+          },
+          {
+            "id": "r10",
+            "statement": "App has a clear title/heading identifying it as Mac Counter QA.",
+            "acceptanceIds": [
+              "a1"
+            ],
+            "capabilityRefs": [
+              "frontend_compile"
+            ]
+          },
+          {
+            "id": "r11",
+            "statement": "Implementation is React frontend only; no backend or persistent data.",
+            "acceptanceIds": [
+              "a8"
+            ],
+            "capabilityRefs": [
+              "frontend_compile"
+            ]
+          },
+          {
+            "id": "r12",
+            "statement": "Fresh preview/refresh always starts at 0 with no restored state.",
+            "acceptanceIds": [
+              "a1",
+              "a8"
+            ],
+            "capabilityRefs": [
+              "frontend_compile"
+            ]
+          }
+        ],
+        "acceptanceCriteria": [
+          {
+            "id": "a1",
+            "criterion": "On load/fresh preview, counter displays 0.",
+            "validationIds": [
+              "v1"
+            ]
+          },
+          {
+            "id": "a2",
+            "criterion": "Clicking Increment increases value by 1 each time (0->1->2).",
+            "validationIds": [
+              "v2"
+            ]
+          },
+          {
+            "id": "a3",
+            "criterion": "Decrement is disabled at 0 and counter never shows negative; enabled when >0 and subtracts 1.",
+            "validationIds": [
+              "v3"
+            ]
+          },
+          {
+            "id": "a4",
+            "criterion": "Reset returns any value to 0.",
+            "validationIds": [
+              "v4"
+            ]
+          },
+          {
+            "id": "a5",
+            "criterion": "Counter display has aria-live=\"polite\" (inspectable).",
+            "validationIds": [
+              "v5"
+            ]
+          },
+          {
+            "id": "a6",
+            "criterion": "All buttons reachable and operable via keyboard with visible focus.",
+            "validationIds": [
+              "v6"
+            ]
+          },
+          {
+            "id": "a7",
+            "criterion": "Layout remains usable on narrow (320px) and wide viewports.",
+            "validationIds": [
+              "v7"
+            ]
+          },
+          {
+            "id": "a8",
+            "criterion": "No backend calls, no login UI, refresh returns to 0.",
+            "validationIds": [
+              "v8"
+            ]
+          }
+        ],
+        "decisions": [],
+        "taskCoverage": [
+          {
+            "taskId": "t1",
+            "requirementIds": [
+              "r1",
+              "r10",
+              "r11",
+              "r12"
+            ],
+            "acceptanceIds": [
+              "a1",
+              "a8"
+            ],
+            "validationIds": [
+              "v1",
+              "v8"
+            ],
+            "dataFlowIds": [
+              "f1"
+            ]
+          },
+          {
+            "taskId": "t2",
+            "requirementIds": [
+              "r1",
+              "r5",
+              "r7"
+            ],
+            "acceptanceIds": [
+              "a1",
+              "a2",
+              "a5"
+            ],
+            "validationIds": [
+              "v1",
+              "v2",
+              "v5"
+            ],
+            "dataFlowIds": [
+              "f2",
+              "f9"
+            ]
+          },
+          {
+            "taskId": "t3",
+            "requirementIds": [
+              "r2",
+              "r5"
+            ],
+            "acceptanceIds": [
+              "a2",
+              "a1"
+            ],
+            "validationIds": [
+              "v2",
+              "v1"
+            ],
+            "dataFlowIds": [
+              "f3",
+              "f4"
+            ]
+          },
+          {
+            "taskId": "t4",
+            "requirementIds": [
+              "r3",
+              "r8"
+            ],
+            "acceptanceIds": [
+              "a3",
+              "a6"
+            ],
+            "validationIds": [
+              "v3",
+              "v6"
+            ],
+            "dataFlowIds": [
+              "f3",
+              "f5"
+            ]
+          },
+          {
+            "taskId": "t5",
+            "requirementIds": [
+              "r4"
+            ],
+            "acceptanceIds": [
+              "a4"
+            ],
+            "validationIds": [
+              "v4"
+            ],
+            "dataFlowIds": [
+              "f3",
+              "f6"
+            ]
+          },
+          {
+            "taskId": "t6",
+            "requirementIds": [
+              "r6",
+              "r8"
+            ],
+            "acceptanceIds": [
+              "a6",
+              "a3"
+            ],
+            "validationIds": [
+              "v6",
+              "v3"
+            ],
+            "dataFlowIds": [
+              "f7"
+            ]
+          },
+          {
+            "taskId": "t7",
+            "requirementIds": [
+              "r8",
+              "r9"
+            ],
+            "acceptanceIds": [
+              "a3",
+              "a6",
+              "a7"
+            ],
+            "validationIds": [
+              "v3",
+              "v6",
+              "v7"
+            ],
+            "dataFlowIds": [
+              "f8"
+            ]
+          },
+          {
+            "taskId": "t8",
+            "requirementIds": [
+              "r11",
+              "r12"
+            ],
+            "acceptanceIds": [
+              "a8",
+              "a1"
+            ],
+            "validationIds": [
+              "v8",
+              "v1"
+            ],
+            "dataFlowIds": [
+              "f1"
+            ]
+          },
+          {
+            "taskId": "t9",
+            "requirementIds": [
+              "r1",
+              "r10"
+            ],
+            "acceptanceIds": [
+              "a1"
+            ],
+            "validationIds": [
+              "v1"
+            ],
+            "dataFlowIds": [
+              "f1",
+              "f2"
+            ]
+          },
+          {
+            "taskId": "t10",
+            "requirementIds": [
+              "r2",
+              "r3",
+              "r4",
+              "r5"
+            ],
+            "acceptanceIds": [
+              "a2",
+              "a3",
+              "a4",
+              "a1"
+            ],
+            "validationIds": [
+              "v2",
+              "v3",
+              "v4",
+              "v1"
+            ],
+            "dataFlowIds": [
+              "f2",
+              "f4",
+              "f5",
+              "f6"
+            ]
+          },
+          {
+            "taskId": "t11",
+            "requirementIds": [
+              "r6",
+              "r7",
+              "r8"
+            ],
+            "acceptanceIds": [
+              "a6",
+              "a5",
+              "a3"
+            ],
+            "validationIds": [
+              "v6",
+              "v5",
+              "v3"
+            ],
+            "dataFlowIds": [
+              "f7",
+              "f9"
+            ]
+          },
+          {
+            "taskId": "t12",
+            "requirementIds": [
+              "r9",
+              "r11",
+              "r12"
+            ],
+            "acceptanceIds": [
+              "a7",
+              "a8",
+              "a1"
+            ],
+            "validationIds": [
+              "v7",
+              "v8",
+              "v1"
+            ],
+            "dataFlowIds": [
+              "f1",
+              "f8"
+            ]
+          }
+        ],
+        "dataFlows": [
+          {
+            "id": "f1",
+            "from": "browser",
+            "to": "counter-app",
+            "label": "mounts and renders",
+            "type": "render",
+            "protocol": "ReactDOM",
+            "description": "Initial mount renders app with count 0 and heading Mac Counter QA"
+          },
+          {
+            "id": "f2",
+            "from": "counter-app",
+            "to": "counter-display",
+            "label": "passes count prop",
+            "type": "prop",
+            "protocol": "React props",
+            "description": "Count prop flows to display for visible immediate update"
+          },
+          {
+            "id": "f3",
+            "from": "counter-app",
+            "to": "controls",
+            "label": "passes handlers and disabled flag",
+            "type": "prop",
+            "protocol": "React props",
+            "description": "Handlers and isDecrementDisabled flag passed to controls"
+          },
+          {
+            "id": "f4",
+            "from": "controls",
+            "to": "counter-app",
+            "label": "user activation invokes handlers",
+            "type": "event",
+            "protocol": "DOM click/keyboard",
+            "description": "Increment activation increments count by 1"
+          },
+          {
+            "id": "f5",
+            "from": "controls",
+            "to": "counter-app",
+            "label": "user activation invokes handlers",
+            "type": "event",
+            "protocol": "DOM click/keyboard",
+            "description": "Decrement activation decrements with disabled at 0 never negative"
+          },
+          {
+            "id": "f6",
+            "from": "controls",
+            "to": "counter-app",
+            "label": "user activation invokes handlers",
+            "type": "event",
+            "protocol": "DOM click/keyboard",
+            "description": "Reset activation returns count to 0"
+          },
+          {
+            "id": "f7",
+            "from": "browser",
+            "to": "controls",
+            "label": "keyboard Tab/Enter/Space focus and activation",
+            "type": "interaction",
+            "protocol": "Keyboard DOM",
+            "description": "Keyboard Tab/Enter/Space focus and operate controls"
+          },
+          {
+            "id": "f8",
+            "from": "styles",
+            "to": "counter-app",
+            "label": "applies responsive and focus styles",
+            "type": "styling",
+            "protocol": "CSS",
+            "description": "Responsive and focus styles applied"
+          },
+          {
+            "id": "f9",
+            "from": "counter-display",
+            "to": "browser",
+            "label": "aria-live polite announcement",
+            "type": "a11y",
+            "protocol": "ARIA live region",
+            "description": "Display announces changes via aria-live polite"
+          }
+        ],
+        "validations": [
+          {
+            "id": "v1",
+            "method": "manual_review",
+            "expectedOutcome": "Preview loads showing 0 and heading Mac Counter QA, Decrement disabled",
+            "availability": "planned",
+            "limitation": null
+          },
+          {
+            "id": "v2",
+            "method": "manual_review",
+            "expectedOutcome": "Increment clicks increase 0->1->2 sequentially",
+            "availability": "planned",
+            "limitation": null
+          },
+          {
+            "id": "v3",
+            "method": "manual_review",
+            "expectedOutcome": "Decrement disabled at 0, enabled >0, never negative, Math.max guard verified",
+            "availability": "planned",
+            "limitation": null
+          },
+          {
+            "id": "v4",
+            "method": "manual_review",
+            "expectedOutcome": "Reset from any value returns to 0",
+            "availability": "planned",
+            "limitation": null
+          },
+          {
+            "id": "v5",
+            "method": "manual_review",
+            "expectedOutcome": "CounterDisplay element has aria-live=polite and aria-atomic=true inspectable",
+            "availability": "planned",
+            "limitation": null
+          },
+          {
+            "id": "v6",
+            "method": "manual_review",
+            "expectedOutcome": "All buttons reachable via Tab and operable via Enter/Space with visible focus ring",
+            "availability": "planned",
+            "limitation": null
+          },
+          {
+            "id": "v7",
+            "method": "manual_review",
+            "expectedOutcome": "Layout usable at 320px and 1024px with no overflow",
+            "availability": "planned",
+            "limitation": null
+          },
+          {
+            "id": "v8",
+            "method": "manual_review",
+            "expectedOutcome": "No network calls, no login UI, refresh returns to 0, no storage APIs found",
+            "availability": "planned",
+            "limitation": null
+          }
+        ],
+        "hypotheses": [
+          {
+            "id": "h1",
+            "statement": "React with functional components and hooks is acceptable.",
+            "componentIds": [
+              "counter-app"
+            ],
+            "requirementIds": [
+              "r1",
+              "r2",
+              "r3",
+              "r4"
+            ]
+          },
+          {
+            "id": "h2",
+            "statement": "Standard build tooling (Vite/CRA/Next static) available for preview.",
+            "componentIds": [
+              "browser",
+              "counter-app"
+            ],
+            "requirementIds": [
+              "r11",
+              "r12"
+            ]
+          },
+          {
+            "id": "h3",
+            "statement": "No specific design system required; simple clean styling suffices.",
+            "componentIds": [
+              "styles"
+            ],
+            "requirementIds": [
+              "r9"
+            ]
+          },
+          {
+            "id": "h4",
+            "statement": "Browser support: modern evergreen browsers.",
+            "componentIds": [
+              "browser"
+            ],
+            "requirementIds": [
+              "r6",
+              "r9"
+            ]
+          }
+        ],
+        "risks": [
+          {
+            "id": "k1",
+            "impact": "Decrement not properly disabled leading to negatives",
+            "mitigation": "Mitigate with disabled prop + Math.max guard.",
+            "rollback": "Revert to last compiling commit; re-verify acceptance A1-A8.",
+            "requirementIds": [
+              "r3"
+            ],
+            "taskIds": [
+              "t4",
+              "t10"
+            ]
+          },
+          {
+            "id": "k2",
+            "impact": "aria-live missing causing accessibility failure",
+            "mitigation": "Mitigate with explicit attribute and manual inspection.",
+            "rollback": "Revert to last compiling commit; re-verify acceptance A1-A8.",
+            "requirementIds": [
+              "r7"
+            ],
+            "taskIds": [
+              "t2",
+              "t11"
+            ]
+          },
+          {
+            "id": "k3",
+            "impact": "State persistence accidentally added violating no-persistence constraint",
+            "mitigation": "Mitigate by prohibiting storage APIs.",
+            "rollback": "Remove storage code and revert to last compiling commit.",
+            "requirementIds": [
+              "r11",
+              "r12"
+            ],
+            "taskIds": [
+              "t8",
+              "t12"
+            ]
+          },
+          {
+            "id": "k4",
+            "impact": "Responsive breakage on mobile/desktop",
+            "mitigation": "Mitigate with flex layout and viewport testing.",
+            "rollback": "Revert to last compiling commit; re-verify acceptance A1-A8.",
+            "requirementIds": [
+              "r9"
+            ],
+            "taskIds": [
+              "t7",
+              "t12"
+            ]
+          }
+        ]
+      },
+      "sourceRevision": "e71bf43d-e084-40f4-9948-cb885368bbc2:inputs:1",
+      "planArtifactDigest": "9b4a69029338575d9d462b5ddf11351c43a0ed337a1acdd49fd0b1eaab1ced03",
+      "planningContract": "semantic-plan-v1",
+      "planArtifactSeal": {
+        "sourceRunId": "run_77037e59-0452-4fba-a689-e8c7df12b06a",
+        "basePlanRunId": "run_5e953dd0-d4dd-488c-a808-7cb16d24e259"
+      },
+      "interactionMode": "plan",
+      "documentDesignOf": {
+        "sourceRunId": "run_77037e59-0452-4fba-a689-e8c7df12b06a",
+        "revisionId": "plandoc_9eb2ee64-2b6d-4f0f-8303-92c6f470885b",
+        "documentDigest": "139890c8909bf0a0ebb6877eecedd8d04663def7a583df04922aab3ed137d16b"
+      }
+    }
+  },
+  "revision": {
+    "id": "plandoc_9eb2ee64-2b6d-4f0f-8303-92c6f470885b",
+    "owner": "local-musepilot-user",
+    "session_id": "e71bf43d-e084-40f4-9948-cb885368bbc2",
+    "parent_id": null,
+    "payload": "{\"goal\":\"Create and save the complete Plan document for a small React counter called Mac Counter QA. Start at 0. Increment adds 1. Decrement subtracts 1 but is disabled at 0; never allow negatives. Reset returns to 0. Use aria-live polite, keyboard focus and responsive styling. No backend, login, external network or persistent data; a fresh preview starts at 0. Include clear requirements and acceptance checks for generating Architecture and Workflow and then Build and Preview.\",\"document\":{\"format\":\"mulow-plan-document\",\"version\":1,\"title\":\"Mac Counter QA - Plan Document\",\"authorAssessment\":{\"readiness\":\"ready_for_design\",\"questions\":[],\"hypotheses\":[]},\"markdown\":\"# Mac Counter QA - Plan Document\\n\\n## 1. Overview\\nMac Counter QA is a small React counter application for QA demonstration. It starts at 0 and provides increment, decrement, and reset controls with accessibility and responsive styling. No backend, login, external network, or persistent data is involved; a fresh preview always starts at 0.\\n\\n## 2. Goals\\n- Provide a simple, reliable counter starting at 0.\\n- Demonstrate correct increment, decrement, and reset behavior.\\n- Enforce non-negative constraint (never below 0).\\n- Meet accessibility basics: aria-live polite, keyboard focus, semantic controls.\\n- Provide responsive styling for desktop and mobile.\\n- Enable Architecture and Workflow generation, then Build and Preview.\\n\\n## 3. Non-Goals\\n- No backend, API, database, or server-side logic.\\n- No authentication, login, user accounts, or roles.\\n- No external network calls or third-party integrations.\\n- No persistent storage (localStorage, sessionStorage, IndexedDB, cookies).\\n- No analytics, telemetry, or tracking.\\n- No multi-counter, history, undo, or advanced features.\\n\\n## 4. Requirements\\n\\n### 4.1 Functional Requirements\\n- R1: App displays a counter value starting at 0 on initial load and on fresh preview.\\n- R2: Increment button adds 1 to the counter on each activation.\\n- R3: Decrement button subtracts 1 but is disabled when counter is 0; counter never goes negative.\\n- R4: Reset button returns counter to 0 from any value.\\n- R5: Counter value is visibly displayed and updates immediately after each action.\\n- R6: All controls are usable via mouse/touch and keyboard (Tab, Enter/Space).\\n\\n### 4.2 Accessibility & UX Requirements\\n- R7: Counter display uses aria-live=\\\"polite\\\" to announce changes.\\n- R8: Buttons have accessible names, visible focus indicators, and proper disabled state for Decrement at 0.\\n- R9: Layout is responsive and readable on mobile and desktop viewports.\\n- R10: App has a clear title/heading identifying it as Mac Counter QA.\\n\\n### 4.3 Technical Constraints\\n- R11: Implementation is React frontend only; no backend or persistent data.\\n- R12: Fresh preview/refresh always starts at 0 with no restored state.\\n\\n## 5. Components and Boundaries\\n\\n### 5.1 In Scope Components\\n- CounterApp (root component): holds count state (useState(0)), renders heading, display, and controls.\\n- CounterDisplay: presents current count with aria-live=\\\"polite\\\" and aria-atomic=\\\"true\\\".\\n- Controls: Increment, Decrement, Reset buttons with click handlers and disabled logic.\\n- Styles: responsive CSS (flex/grid, media queries) for layout and focus states.\\n\\n### 5.2 Out of Scope / Boundaries\\n- No backend service, API layer, or database.\\n- No auth provider or session management.\\n- No network client or external fetch.\\n- No persistence adapter.\\n\\n### 5.3 Data Flow\\nUser action -> event handler -> setCount updater -> re-render -> CounterDisplay updates -> aria-live announcement.\\n\\n## 6. Interfaces\\n\\n### 6.1 User Interface\\n- Heading: \\\"Mac Counter QA\\\"\\n- Display: numeric value, aria-live=\\\"polite\\\"\\n- Buttons: Increment (+1), Decrement (-1, disabled at 0), Reset (to 0)\\n- Keyboard: Tab to focus, Enter/Space to activate, focus ring visible.\\n\\n### 6.2 Component Props/State (Conceptual)\\n- State: count: number (0..n, integer)\\n- Handlers: onIncrement(): setCount(c => c+1), onDecrement(): setCount(c => Math.max(0, c-1)), onReset(): setCount(0)\\n- Derived: isDecrementDisabled = count === 0\\n\\n### 6.3 No External Interfaces\\nNo REST, GraphQL, or storage interfaces.\\n\\n## 7. Security Considerations\\n- No authentication or authorization required.\\n- No sensitive data handled.\\n- No external network reduces attack surface.\\n- Ensure no injection via display (render count as text, not HTML).\\n- No persistence means no data leakage across sessions.\\n\\n## 8. Workflow, Dependencies, Parallel Work\\n\\n### 8.1 Workflow Phases\\n1. Plan (this document) - requirements and acceptance defined.\\n2. Architecture and Workflow - derive component structure, state flow, styling approach.\\n3. Build and Preview - implement React components, compile, preview at 0.\\n\\n### 8.2 Dependencies\\n- Architecture depends on Plan approval.\\n- Build depends on Architecture.\\n- Preview depends on successful Build/compile.\\n\\n### 8.3 Parallel Work Opportunities\\n- Styling/responsive design can proceed in parallel with component logic.\\n- Accessibility attributes (aria-live, focus) can be added alongside button implementation.\\n- Acceptance checks can be drafted in parallel with Architecture.\\n\\n## 9. Acceptance and Planned Tests\\n\\n### 9.1 Acceptance Criteria\\n- A1: On load/fresh preview, counter displays 0.\\n- A2: Clicking Increment increases value by 1 each time (0->1->2).\\n- A3: Decrement is disabled at 0 and counter never shows negative; enabled when >0 and subtracts 1.\\n- A4: Reset returns any value to 0.\\n- A5: Counter display has aria-live=\\\"polite\\\" (inspectable).\\n- A6: All buttons reachable and operable via keyboard with visible focus.\\n- A7: Layout remains usable on narrow (320px) and wide viewports.\\n- A8: No backend calls, no login UI, refresh returns to 0.\\n\\n### 9.2 Planned Tests (Manual/Preview Checks)\\n- T1: Load app, verify 0 displayed, Decrement disabled.\\n- T2: Increment 3 times, verify 3; Decrement once, verify 2.\\n- T3: Decrement to 0, verify disabled and no negative on extra clicks/key presses.\\n- T4: Increment to 5, Reset, verify 0.\\n- T5: Keyboard-only: Tab through controls, activate with Enter/Space.\\n- T6: Inspect element for aria-live=\\\"polite\\\" on display.\\n- T7: Resize viewport to 320px and 1024px, verify no overflow/cropping.\\n- T8: Refresh preview, verify returns to 0 (no persistence).\\n\\n## 10. Assumptions\\n- React with functional components and hooks is acceptable.\\n- Standard build tooling (Vite/CRA/Next static) available for preview.\\n- No specific design system required; simple clean styling suffices.\\n- Browser support: modern evergreen browsers.\\n\\n## 11. Risks and Rollback\\n\\n### 11.1 Risks\\n- Risk: Decrement not properly disabled leading to negatives -> Mitigate with disabled prop + Math.max guard.\\n- Risk: aria-live missing -> Mitigate with explicit attribute and manual inspection.\\n- Risk: State persistence accidentally added -> Mitigate by prohibiting storage APIs.\\n- Risk: Responsive breakage -> Mitigate with flex layout and viewport testing.\\n\\n### 11.2 Rollback\\n- No deployment rollback needed (frontend preview only).\\n- If Build fails, revert to last compiling commit; re-verify acceptance A1-A8.\\n\\n## 12. Open Questions\\nNone - requirements are clear for Architecture and Build phases.\\n\",\"index\":null},\"origin\":\"authored\",\"provenance\":{\"kind\":\"model_document\",\"runId\":\"run_c97fab57-70ef-4f42-9145-6a3bf566c851\"},\"knownQuestions\":[],\"authorEvidence\":{\"baseRevisionId\":null,\"requestDigest\":\"b7c45ffbcf276cd4751c577197593f0ed11e901d3ce53cb60d60f485309e269d\",\"questionsBefore\":[],\"answers\":[]},\"sourceBinding\":{\"native\":{\"status\":\"empty\"},\"externalRevision\":null,\"adoption\":null,\"handoff\":null},\"sourceAware\":false}",
+    "digest": "139890c8909bf0a0ebb6877eecedd8d04663def7a583df04922aab3ed137d16b",
+    "payload_digest": "cd61860d3341e7f499292eb09287764e640513dd3f8ede95a5ab3c91383d8e53",
+    "created": 1793730477723
+  }
+}

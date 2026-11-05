@@ -1,0 +1,14 @@
+import {safePlanSourceEvidence} from './plan-source-evidence.js';
+// Presentation only: the host establishes supplied bytes and exact citations.
+export function planSourceReview(plan,hypothesisIds=[]){
+ if(plan?.planSourceEvidence===undefined)return {status:'absent',receipt:null,citations:[],previouslySupplied:false};
+ let evidence;try{evidence=safePlanSourceEvidence(plan.planSourceEvidence,plan);}catch{return {status:'unconfirmed',receipt:null,citations:[],previouslySupplied:false};}
+ if(evidence.warnings.length)return {status:'unconfirmed',receipt:null,citations:[],previouslySupplied:false};
+ const receipt=evidence.receipt,citations=evidence.citations.filter(c=>hypothesisIds.includes(c.hypothesisId));
+ return {status:citations.length?'matched':'absent',receipt,citations,previouslySupplied:!!receipt&&(!!plan.restoreOf||!!plan.branchOf||plan.planArtifactSeal?.sourceRunId!==receipt.sourceRunId)};
+}
+export function renderPlanSourceWarning(plan,esc){return planSourceReview(plan).status==='unconfirmed'?'<p class="plan-source-warning" role="status">'+esc('Source references unconfirmed. The draft is retained, but no source citations are shown; refine before approval.')+'</p>':'';}
+export function renderPlanSourceReview(plan,hypothesisIds,esc){const view=planSourceReview(plan,hypothesisIds);if(view.status==='unconfirmed')return renderPlanSourceWarning(plan,esc);const r=view.receipt,kind=r?({native:'Published native snapshot',adopted:'Reviewed adopted snapshot',handoff:'Retained unpublished snapshot',local:'Reviewed selected local files (planning reference)'})[r.sourceKind]:null;
+ const provenance=r?'<p class="plan-source-provenance">'+esc(view.previouslySupplied?'Previously supplied in Plan '+r.sourceRunId:'Source supplied for this plan · '+r.sourceRunId)+'<br>'+esc(kind)+' · revision <code>'+esc(r.sourceRevision)+'</code></p>':'';
+ return '<details class="plan-source-review"><summary>Source references · '+view.citations.length+' matched</summary><small>'+(view.citations.length?'Source provided · citation matched. This confirms supplied bytes, not inspection, diagnosis, a fix or successful tests.':'No matched source citations for this selection. Hypotheses are not inspected-code evidence.')+'</small>'+provenance+view.citations.map(c=>'<article class="plan-source-citation"><h4>'+esc(c.path)+' · '+(c.startLine===c.endLine?'line '+c.startLine:'lines '+c.startLine+'–'+c.endLine)+'</h4><small>Referenced by this hypothesis · not a verified finding</small><pre tabindex="0" aria-label="Exact supplied source excerpt"><code>'+esc(c.excerpt).replaceAll('\r','&#13;')+'</code></pre><details><summary>Exact source identity</summary><dl><dt>File SHA-256</dt><dd><code>'+esc(c.fileSha256)+'</code></dd><dt>Excerpt SHA-256</dt><dd><code>'+esc(c.excerptSha256)+'</code></dd><dt>Excerpt bytes</dt><dd>'+c.excerptBytes+'</dd></dl></details></article>').join('')+'</details>';
+}

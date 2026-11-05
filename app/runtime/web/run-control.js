@@ -1,0 +1,29 @@
+const phases=new Set(['running','draining','paused','unavailable']);
+const phaseEvents={'run.pause_requested':'draining','run.paused':'paused','run.resumed':'running'};
+const key=c=>JSON.stringify([c?.sessionId,c?.runId,c?.planRunId,c?.sourceRevision??null,c?.owned===true,c?.interactionMode,c?.status]);
+const eligible=c=>c?.owned===true&&c.status==='running'&&c.interactionMode==='agent'&&typeof c.sessionId==='string'&&/^run_[A-Za-z0-9-]+$/.test(c.runId||'')&&/^run_[A-Za-z0-9-]+$/.test(c.planRunId||'');
+export function createRunControl({getContext,request,onChange=()=>{}}){let contextKey='',epoch=0,evidence=0,value={phase:'unavailable',canResume:false,busy:false,message:''};
+ function sync(){const c=getContext(),next=key(c);if(next!==contextKey){contextKey=next;epoch++;value={phase:'unavailable',canResume:false,busy:false,message:'',runId:c?.runId||null,sessionId:c?.sessionId||null};}return c;}
+ function accept(result,c){if(!result||result.sessionId!==c.sessionId||result.runId!==c.runId||!phases.has(result.phase)||typeof result.canResume!=='boolean'||result.canResume&&result.phase!=='paused')throw Error('run_control_binding');return{phase:result.phase,canResume:result.canResume,busy:false,runId:c.runId,sessionId:c.sessionId,message:result.phase==='unavailable'?'This run cannot be resumed on this connection. Use its recorded status; no work was restarted.':''};}
+ async function refresh(){const c=sync();if(!eligible(c)||value.busy)return false;const ticket=epoch,observed=evidence;value={...value,busy:true};try{const result=await request('/api/run-control?'+new URLSearchParams({sessionId:c.sessionId,runId:c.runId}));sync();if(ticket!==epoch)return false;if(observed===evidence)value=accept(result,c);return true;}catch{sync();if(ticket===epoch)value={...value,phase:'unavailable',canResume:false,busy:false,message:'Run control status is unconfirmed. Check status; no work was restarted.'};return false;}finally{if(ticket===epoch){value.busy=false;onChange();if(observed!==evidence)void refresh();}}}
+ async function act(action){const c=sync();if(!eligible(c)||value.busy||!['pause','resume'].includes(action)||action==='pause'&&value.phase!=='running'||action==='resume'&&(value.phase!=='paused'||value.canResume!==true))return false;const ticket=epoch,observed=evidence;value={...value,busy:true,message:''};onChange();try{const result=await request('/api/run-'+action,{sessionId:c.sessionId,runId:c.runId,planRunId:c.planRunId,sourceRevision:c.sourceRevision??null});sync();if(ticket!==epoch)return false;if(observed===evidence)value=accept(result,c);return true;}catch{sync();if(ticket===epoch)value={...value,phase:'unavailable',canResume:false,busy:false,message:'Control outcome is unconfirmed. Check status before another action; no automatic retry.'};return false;}finally{if(ticket===epoch){value.busy=false;onChange();if(observed!==evidence)void refresh();}}}
+ return{state(){const c=sync();return{...value,eligible:eligible(c)};},refresh,act,observe(event){const c=sync();if(!eligible(c)||event?.runId!==c.runId||event.sessionId&&event.sessionId!==c.sessionId)return;let fields;try{fields=safeRunControlEvent(event);}catch{return;}const phase=fields.phase;if(!phase||fields.planRunId!==c.planRunId||fields.sourceRevision!==(c.sourceRevision??null))return;evidence++;value={...value,phase,canResume:false,message:''};void refresh();}};
+}
+export function safeRunControlEvent(event){const expected=phaseEvents[event?.type];if(!expected)return {};if(event.phase!==expected||!/^run_[A-Za-z0-9-]{1,100}$/.test(event.planRunId||'')||event.sourceRevision!==null&&(typeof event.sourceRevision!=='string'||event.sourceRevision.length>160)||event.boundary!==undefined&&!['worker_wave','assembly','publish','completion','decision_options'].includes(event.boundary)||event.type!=='run.pause_requested'&&event.boundary===undefined)throw Error('Invalid run control event');return{phase:expected,planRunId:event.planRunId,sourceRevision:event.sourceRevision,...(event.boundary?{boundary:event.boundary}:{})};}
+
+// Display evidence only: never authorizes Pause, Resume, approval or execution.
+export function activePlanWorkLabel(session,planRunId){
+ const live=session?.liveRun;if(!planRunId||session?.pendingPlan?.runId!==planRunId||live?.status!=='running'||live.interactionMode!=='agent'||!live.runId)return null;
+ const events=(session.events||[]).filter(e=>e.sessionId===session.id&&e.runId===live.runId);
+ if(!events.some(e=>e.type==='run.started')||!events.some(e=>e.type==='project.generating'&&e.planRunId===planRunId)||events.some(e=>['run.completed','run.failed','run.cancelled'].includes(e.type)))return null;
+ const control=events.findLast(e=>['run.pause_requested','run.paused','run.resumed'].includes(e.type));
+ if(control){try{const phase=safeRunControlEvent(control);if(phase.planRunId===planRunId&&phase.sourceRevision===(session.pendingPlan.sourceRevision??null)){if(phase.phase==='paused')return 'Work paused · outcome unverified';if(phase.phase==='draining')return 'Finishing current work · outcome unverified';}}catch{}}
+ return 'Work in progress · outcome unverified';
+}
+
+export function refinementStoppedLabel(session,planRunId){
+ const live=session?.liveRun;if(!planRunId||session?.pendingPlan?.runId!==planRunId||live?.status!=='cancelled'||live.interactionMode!=='agent'||!live.runId)return null;
+ const events=(session.events||[]).filter(e=>e.sessionId===session.id&&e.runId===live.runId),terminal=events.findLast(e=>['run.completed','run.failed','run.cancelled'].includes(e.type));
+ if(!events.some(e=>e.type==='run.started')||!events.some(e=>e.type==='project.generating'&&e.planRunId===planRunId)||terminal?.type!=='run.cancelled'||terminal.code!=='refinement_handoff_boundary')return null;
+ return 'Work stopped for refinement · outcome unverified';
+}

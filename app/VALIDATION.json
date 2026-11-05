@@ -1,0 +1,29 @@
+{
+  "release": "Mulow Mac v7.0.7 \u2014 Agent continuation, 2026-11-04",
+  "architecture": "arm64",
+  "minimumMacOS": "15.0",
+  "node": "24.8.0",
+  "signing": "Ad-hoc integrity signature only; no Developer ID; not notarized",
+  "windowsParity": "Not verified; do not release this as Windows",
+  "scopedTests": {
+    "passed": 114,
+    "failed": 0
+  },
+  "verified": [
+    "Agent continues the same project without rewriting the original Plan",
+    "Ordinary route recommendations continue automatically",
+    "Real alternative c3 chosen through Steer and only that source route executed",
+    "Node-specific public activity and natural-language outcomes with own files and duration",
+    "Actual Preview Add 10 -> 10 Even; Increment -> 11 Odd",
+    "Linked rewind restored exact original source hashes, Plan, Architecture and Workflow; original Preview returned"
+  ],
+  "limits": [
+    "Model candidate evaluations are not experimental execution of every alternative",
+    "Private reasoning is never exposed",
+    "Preview supports a restricted React profile; compilation does not imply browser tests",
+    "Original 114-test run includes isolated recorded-event fixtures; the portable source QA subset is reported separately"
+  ],
+  "userDataIncluded": false,
+  "credentialsIncluded": false,
+  "publicMetadataNote": "Library and top-level verification-run identifiers are omitted from this validation summary. Fixture data, validation scope and limitations are preserved."
+}

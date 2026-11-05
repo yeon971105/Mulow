@@ -1,0 +1,36 @@
+Third-party notices for Mulow for Mac
+
+The root MIT License covers original Mulow application code by Jewon Yeon.
+It does not replace any third-party copyright or license. All notices below
+remain at their original bundled paths and must accompany redistribution.
+
+Bundled components
+- Node.js 24.8.0, Apple Silicon executable: Contents/Resources/NODE-LICENSE.txt.
+  This complete Node distribution notice includes its bundled dependencies.
+- esbuild-wasm 0.25.12: MIT, local/vendor/static-react-toolchain/packages/esbuild-wasm/LICENSE.md.
+  The bundled toolchain contains the WebAssembly compiler, not a separate native esbuild executable.
+- React and react-dom 19.3.1; scheduler 0.28.0: MIT, each package's LICENSE.
+- acorn 8.19.0 and acorn-jsx 5.3.2: MIT, each package's LICENSE.
+- PDF.js: Apache-2.0, web/vendor/pdfjs/LICENSE and original source headers.
+- PDF.js CMaps: web/vendor/pdfjs/cmaps/LICENSE.
+- PDF.js standard fonts: web/vendor/pdfjs/standard_fonts/LICENSE_LIBERATION
+  and LICENSE_FOXIT. These font notices are distinct from the app's MIT license.
+
+Inventory method
+Reviewed the actual bundled package metadata, source license headers, full
+Node license and retained vendor license files. No third-party notice was
+rewritten or relabeled. No latest Windows source or binary is claimed reviewed.
+This inventory identifies preserved distribution notices; it is not a claim
+that Mulow owns third-party code or a separate legal opinion.
+
+Preserved notice SHA-256 inventory
+76a876cf886ff9be2a8b5e2e86514fed06223c8c9f0c1e9ee9606e93841e00b7  local/vendor/static-react-parser/acorn/LICENSE
+cfa72b62b9ae173078823a3796b25c027a9071046a263beddf966df67018ce06  local/vendor/static-react-parser/acorn-jsx/LICENSE
+b40ec5baec7bb34fa5b1c09521fa3cd52d5fad7adafed74932a2010d3612a681  local/vendor/static-react-toolchain/packages/esbuild-wasm/LICENSE.md
+da6d3703ed11cbe42bd212c725957c98da23cbff1998c05fa4b3d976d1a58e93  local/vendor/static-react-toolchain/packages/react/LICENSE
+da6d3703ed11cbe42bd212c725957c98da23cbff1998c05fa4b3d976d1a58e93  local/vendor/static-react-toolchain/packages/react-dom/LICENSE
+da6d3703ed11cbe42bd212c725957c98da23cbff1998c05fa4b3d976d1a58e93  local/vendor/static-react-toolchain/packages/scheduler/LICENSE
+0d542e0c8804e39aa7f37eb00da5a762149dc682d7829451287e11b938e94594  web/vendor/pdfjs/LICENSE
+aa92ab5a472974865a96fd4a4e9c13bb41bf6fe1b309cb6b8da48bc9e19839a2  web/vendor/pdfjs/cmaps/LICENSE
+b578cdd2345840ada550bd12519533812320d5f1d21cf4c1c7e1b1b0a31c98b7  web/vendor/pdfjs/standard_fonts/LICENSE_FOXIT
+d2c4d5b3e115a519cb58eb691aa64538397e2611f9ebe801392cf9667997e7dc  web/vendor/pdfjs/standard_fonts/LICENSE_LIBERATION

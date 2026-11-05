@@ -1,0 +1,26 @@
+// Presentation-only modal containment. Closing/approval semantics stay with each controller.
+const TARGETS='button,input,select,textarea,a[href],summary,[tabindex],[contenteditable="true"]';
+export function createDialogFocus({documentObject=document,getContext=()=>'',fallback=()=>documentObject.querySelector('#composer textarea')||documentObject.querySelector('button[data-action="new"]')}={}){
+ let frames=[],inerted=[],lastFocus=null,context=getContext(),suspended=false,redirecting=false;
+ const attr=(node,key)=>node?.getAttribute?.(key);
+ function visible(node){if(!node||node.isConnected===false||node.disabled||attr(node,'aria-disabled')==='true'||node.getClientRects?.().length===0)return false;for(let n=node;n;n=n.parentElement){if(n.hidden||n.inert||attr(n,'aria-hidden')==='true')return false;if(n.tagName==='DETAILS'&&!n.open){const summary=[...n.children].find(x=>x.tagName==='SUMMARY');if(!summary||!(summary===node||summary.contains(node)))return false;}}return true;}
+ function remember(node){if(!node||node===documentObject.body)return null;const attrs=['id','aria-label','data-session-id','data-action','data-menu-session','data-menu-project','data-tab','name','data-plan-branch','data-plan-branch-run','data-branch-proposal-run','data-branch-proposal-sequence','data-restore-checkpoint','data-checkpoint-focus-session','data-checkpoint-focus-run','data-checkpoint-focus-task','data-recovery-preview','data-continuation-preview','data-project-recovery-preview','data-continuation-focus-session','data-continuation-focus-run','data-package-option','data-option-set','data-option-run','data-option-session'];return {node,tag:node.tagName,attrs:attrs.filter(k=>attr(node,k)!==null&&attr(node,k)!==undefined||attr(node,'data-plan-branch')!=null&&['data-branch-proposal-run','data-branch-proposal-sequence'].includes(k)).map(k=>[k,attr(node,k)??null])};}
+ function resolve(saved){if(visible(saved?.node))return saved.node;if(!saved?.attrs.length)return null;return [...documentObject.querySelectorAll(TARGETS)].find(n=>n.tagName===saved.tag&&saved.attrs.every(([k,v])=>attr(n,k)===v)&&visible(n))||null;}
+ function release(){for(const [node,value]of inerted)node.inert=value;inerted=[];}
+ function top(){return [...documentObject.querySelectorAll('[role="dialog"][aria-modal="true"]')].filter(visible).at(-1)||null;}
+ function key(node){return [attr(node,'id'),attr(node,'aria-labelledby'),attr(node,'aria-label'),attr(node,'class')].join('|');}
+ function targets(dialog){return [...dialog.querySelectorAll(TARGETS)].filter(n=>visible(n)&&n.tabIndex!==-1&&attr(n,'tabindex')!=='-1'&&!(n.tagName==='INPUT'&&n.type==='hidden'));}
+ function focus(node){node?.focus?.({preventScroll:true});}
+ function contain(dialog){for(let path=dialog;path?.parentElement;path=path.parentElement){for(const sibling of path.parentElement.children){if(sibling===path)continue;inerted.push([sibling,!!sibling.inert]);sibling.inert=true;}if(path.parentElement===documentObject.body)break;}}
+ function before(){suspended=true;if(!frames.length)lastFocus=remember(documentObject.activeElement);else frames.at(-1).focused=remember(documentObject.activeElement);}
+ function sync(){suspended=false;release();const nextContext=getContext();if(nextContext!==context){frames=[];lastFocus=null;context=nextContext;}const dialog=top();if(!dialog){const opener=frames[0]?.opener;frames=[];if(opener)focus(resolve(opener)||fallback());return;}
+  const id=key(dialog),index=frames.findIndex(f=>f.key===id);if(index>=0)frames=frames.slice(0,index+1);else frames.push({key:id,opener:dialog.contains(documentObject.activeElement)?(frames.at(-1)?.focused||lastFocus):(remember(documentObject.activeElement)||lastFocus),focused:null});
+  const frame=frames.at(-1);frame.dialog=dialog;contain(dialog);
+  if(!dialog.contains(documentObject.activeElement)){let target=resolve(frame.focused);if(!target||!dialog.contains(target))target=targets(dialog)[0];if(!target){dialog.setAttribute('tabindex','-1');target=dialog;}focus(target);}
+ }
+ function keydown(event){if(event.key!=='Tab')return;const dialog=frames.at(-1)?.dialog;if(!dialog||!visible(dialog))return;const items=targets(dialog),first=items[0],last=items.at(-1),active=documentObject.activeElement;event.stopImmediatePropagation?.();if(!first){event.preventDefault();focus(dialog);return;}if(!dialog.contains(active)||event.shiftKey&&active===first||!event.shiftKey&&active===last){event.preventDefault();focus(event.shiftKey?last:first);}}
+ function focusin(event){if(suspended||redirecting)return;redirecting=true;try{const previous=frames.at(-1)?.dialog;if(previous?.isConnected===false||top()!==previous)sync();const dialog=frames.at(-1)?.dialog;if(dialog&&visible(dialog)&&!dialog.contains(event.target))focus(targets(dialog)[0]||dialog);else if(!dialog)lastFocus=remember(event.target);else frames.at(-1).focused=remember(event.target);}finally{redirecting=false;}}
+ function dispose(){release();frames=[];documentObject.removeEventListener('keydown',keydown,true);documentObject.removeEventListener('focusin',focusin,true);}
+ documentObject.addEventListener('keydown',keydown,true);documentObject.addEventListener('focusin',focusin,true);
+ return {before,sync,dispose};
+}
