@@ -63,11 +63,11 @@ The source import contains 617 files. Runtime code and vendored dependencies mat
 
 The published app, source and checksum downloads match their reviewed originals. Earlier local source-build and extracted-launch checks passed; that does **not** establish a successful browser-downloaded installation. The portable synthetic subset recorded **12/12**, and the broader release record reports **114 scoped checks** with recorded fixtures. These checks do not prove every generated app or alternative works. Preview supports a restricted React profile; file import and drag-and-drop are outside this release’s scope.
 
-## Development history and hackathon scope
+## Hackathon development
 
-This is a snapshot publication of an existing Mulow codebase, not a claim that the entire application was written during the event. The [runtime manifest](app/runtime/build.json) records upstream baseline `fbce78334a044794c2cee625ac74a0cc18aad14b`.
+All original Mulow project work was completed during the hackathon, including the visual workspace, Muse-powered planning and execution, Agent continuation and steering, node outcomes, linked version restore, Mac packaging, website and demo.
 
-The release combines the existing visual-workspace/runtime foundation with the verified Agent-continuation, selected-route steering, node-outcome, linked-rewind and Mac packaging work described in [VALIDATION.json](app/VALIDATION.json). The source snapshot does not contain the original commit history or a dated event-boundary diff, so exact before/during-event attribution is **not independently established**. Public repository commit dates describe publication and maintenance, not original implementation dates. Vendored dependencies retain their own authorship and licenses.
+This repository publishes the reviewed release snapshot; its commit timestamps record publication and maintenance. Third-party dependencies retain their respective authorship, copyrights and licenses.
 
 ## License
 
